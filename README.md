@@ -3,6 +3,10 @@ bovine
 
 Just an online learning system
 
+PLEASE NOTE:  bovine is extremely early in development.  Right now all we have are the basics.  It is still a long ways away
+from being usable.  About as far away as Betelgeuse Seven is from Milliway's.  Hopefully it will one day be as good as others
+like it, but for now, it's just there.  thnx
+
 ###the goal
 
 Education is not a game.  Online learning is proven to work, and it's about time we make it work for real.  It's time to grab
