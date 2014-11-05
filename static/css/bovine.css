@@ -1,0 +1,11 @@
+body {
+  margin-top: 60px;
+}
+.navbar-menu {
+  margin: 0;
+}
+.navbar-menu li {
+  float: left;
+  list-style-type: none;
+  padding: 10px 0;
+}

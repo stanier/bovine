@@ -1,0 +1,9 @@
+.navbar.navbar-default.navbar-fixed-top
+    .container
+        .col-md-3.navbar-header
+            a.navbar-brand(href='./') bovine
+        if !user
+            .col-md-3.col-md-offset-6
+                ul.navbar-menu
+                    li
+                        a.button.button-rounded.button-flat#login(href='login') Sign in
