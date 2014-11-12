@@ -1,0 +1,27 @@
+block head
+    script(src='js/dashboard.js')
+
+block dashboard
+    div(ng-controller='dashboardController')
+        .well.col-md-12
+            form(novalidate)
+                .col-md-3
+                    input.col-md-11.form-control(type='text' ng-model='username' placeholder='Enter username')
+                .col-md-3
+                    input.col-md-11.form-control(type='text' ng-model='email' placeholder='Enter email')
+                .col-md-3
+                    input.col-md-11.form-control(type='text' ng-model='id' placeholder='Enter id')
+                .col-md-3
+                    button.col-md-11.form-control(type='submit' ng-click='lookup(username, email, id)') Lookup user
+        .well.col-md-12.ng-hide(ng-show='data')
+            table.table
+                thead: tr
+                        td Username
+                        td Email
+                        td Id
+                        td
+                tbody: tr(ng-repeat='record in data')
+                        td {{ record.username }}
+                        td {{ record.email }}
+                        td {{ record.id }}
+                        td: a.button(href='/admin/user/edit?target={{ record.id }}'): .fa.fa-gear

@@ -1,0 +1,18 @@
+extends /page
+
+block content
+    case user.role
+        when 'admin'
+            include admin.jade
+        when 'manager'
+            include manager.jade
+        when 'teacher'
+            include teacher.jade
+        when 'student'
+            include student.jade
+        default
+            h3 Access denied
+            p We're sorry, but we could not render your page.  Perhaps you are
+            | not logged in or were not entered into the system correctly?
+            
+    block dashboard

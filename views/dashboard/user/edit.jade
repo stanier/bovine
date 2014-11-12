@@ -1,0 +1,46 @@
+extends ../dashboard
+
+block head
+    script(src='/js/user_edit.js')
+
+block content
+    div(ng-controller='userEditorController')
+        h3 Edit user
+        .well.col-sm-12
+            form.form-horizontal(novalidate)
+                .form-group.col-sm-6
+                    label.control-label.col-sm-2(for='username') Username
+                    .col-sm-10
+                        input.form-control#username(type='text' ng-model='username' value='#{target.username}' autocomplete='off')
+                .form-group.col-sm-6
+                    label.control-label.col-sm-2(for='password') Password
+                    .col-sm-10
+                        input.form-control#password(type='password' ng-model='password' placeholder='Enter new password' autocomplete='off')
+                .form-group.col-sm-12
+                    label.control-label.col-sm-1 Name
+                    .col-sm-11
+                        .col-sm-4
+                            input.form-control#firstname(type='text' ng-model='name.first' value='#')
+                        .col-sm-4
+                            input.form-control#middlename(type='text' ng-model='name.middle' placeholder='[placeholder]')
+                        .col-sm-4
+                            input.form-control#lastname(type='text' ng-model='name.last' placeholder='[placeholder]')
+                .form-group.col-sm-6
+                    label.control-label.col-sm-2(for='school') School
+                    .col-sm-10
+                        input.form-control#school(type='dropdown' ng-model='school' placeholder='[placeholder]')
+                .form-group.col-sm-3
+                    label.control-label.col-sm-2(for='role') Role
+                    .col-sm-10
+                        input.form-control#role(type='dropdown' ng-model='role' placeholder='[placeholder]')
+                .form-group.col-sm-3
+                    label.control-label.col-sm-3(for='grade') Grade
+                    .col-sm-9
+                        input.form-control#grade(type='number' ng-model='grade' placeholder='[placeholder]')
+                .form-group.col-sm-4
+                    label.control-label.col-sm-2(for='id') ID
+                    .col-sm-10
+                        input.form-control#id(type='text' placeholder='#{target._id}' disabled)
+                .form-group.col-sm-12
+                    .col-sm-offset-5.col-sm-2
+                        button.col-md-11.form-control(type='submit' ng-click='write(username)') Save Changes

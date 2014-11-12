@@ -2,10 +2,14 @@ body {
   margin-top: 60px;
 }
 .navbar-menu {
+  float: right;
   margin: 0;
 }
 .navbar-menu li {
-  float: left;
+  float: right;
   list-style-type: none;
   padding: 10px 0;
+}
+.sidebar-menu li {
+  list-style-type: none;
 }
