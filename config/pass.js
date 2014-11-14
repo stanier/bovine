@@ -27,8 +27,15 @@ passport.use(new LocalStrategy(function(username, password, done) {
     });
 }));
 
-// Simple route middleware to ensure user is authenticated.  Otherwise send to login page.
 exports.ensureAuthenticated = function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) { return next(); }
     res.redirect('/login')
+}
+
+exports.ensureAdmin = function ensureAdmin(req, res, next) {
+    if(req.user && req.user.role == 'admin') {
+        next();
+    } else {
+        res.sendStatus(403);
+    }
 }

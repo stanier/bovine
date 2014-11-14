@@ -7,7 +7,7 @@ bovine.controller('userEditorController', ['$scope', '$http', function($scope, $
     ];
     
     $scope.write = function(id, username, email, password, firstName, middleName, lastName, school, role, grade){
-        var queryString = '/admin/user/update';
+        var queryString = '/admin/user/create';
         var postData = {};
         if (username) postData.username = username;
         if (email) postData.email = email;
@@ -20,7 +20,6 @@ bovine.controller('userEditorController', ['$scope', '$http', function($scope, $
         if (grade) postData.grade = grade;
         
         if (username || password || firstName || middleName || lastName || school || role || grade) {
-            postData._id = id;
             $http.post(queryString, postData).success(function(data, status, headers, config){
                 $scope.success = data;
             }).error(function(data, status, headers, config){

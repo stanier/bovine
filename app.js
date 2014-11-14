@@ -16,8 +16,9 @@ var nib = require('nib');
 var db = require('./config/dbschema');
 var pass = require('./config/pass');
 
-var basic_routes = require('./routes/basic.js');
-var user_routes = require('./routes/user.js');
+var basic_routes = require('./routes/basic');
+var user_routes = require('./routes/user');
+var admin_routes = require('./routes/admin');
 
 var app = express();
 
@@ -26,6 +27,7 @@ function compile(str, path) {
 }
 
 app.set('views', __dirname + '/views');
+app.locals.basedir = app.get('views');
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
@@ -53,6 +55,12 @@ app.get('/account', pass.ensureAuthenticated, user_routes.account);
 app.get('/login', user_routes.getlogin);
 app.post('/login', user_routes.postlogin);
 app.get('/logout', user_routes.logout);
+app.get('/dashboard', user_routes.dashboard);
+app.get('/admin/lookup', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.lookup);
+app.get('/admin/user/edit', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.user.edit);
+app.post('/admin/user/update', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.user.update);
+app.get('/admin/user/add', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.user.add);
+app.post('/admin/user/create', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.user.create);
 
 app.listen(9500, function(){
     console.log('Express server listening on port 9500');

@@ -1,16 +1,14 @@
 extends ../dashboard
 
 block head
-    script(src='/js/user_edit.js')
+    script(src='/js/user_add.js')
 
 block content
     div(ng-controller='userEditorController')
-        h3 Edit user
+        h3 Add new user
         .alert.alert-success(ng-show='success'): {{success}}
         .alert.alert-danger(ng-show='error'): {{error}}
-        .well.col-sm-12(ng-init='username="#{target.username}"; email="#{target.email}"; firstName="#{target.firstName}";' +
-                                 'middleName="#{target.middleName}"; lastName="#{target.lastName}"; school="#{target.school}";' +
-                                 'role="#{target.role}"; grade="#{target.grade}"; id="#{target._id}"')
+        .well.col-sm-12
             form.form-horizontal(novalidate)
                 input#chrome_autofill_fix_user(type='text' style='display: none')
                 input#chrome_autofill_fix_pass(type='password' style='display: none')
@@ -22,7 +20,7 @@ block content
                     .col-sm-8: input.form-control#email(type='email' ng-model='email')
                 .form-group.col-sm-4
                     label.control-label.col-sm-4(for='password') Password
-                    .col-sm-8: input.form-control#password(type='password' ng-model='password' placeholder='Enter new password')
+                    .col-sm-8: input.form-control#password(type='password' ng-model='password')
                 .form-group.col-sm-12
                     label.control-label.col-sm-1 Name
                     .col-sm-11
@@ -35,7 +33,7 @@ block content
                 .form-group.col-sm-3
                     label.control-label.col-sm-2(for='role') Role
                     .col-sm-10
-                        select.form-control#role(ng-model='role' selected='#{target.role}')
+                        select.form-control#role(ng-model='role')
                             option(value='student') Student
                             option(value='teacher') Teacher
                             option(value='manager') Manager

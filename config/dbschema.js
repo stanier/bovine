@@ -24,7 +24,12 @@ var userSchema = new Schema({
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true},
-    admin: { type: Boolean, required: true },
+    firstName: {type: String, required: false},
+    middleName: {type: String, required: false},
+    lastName: {type: String, required: false},
+    school: {type: String, required: false},
+    role: {type: String, required: true},
+    grade: { type: Number, required: true}
 });
 
 // Save user
@@ -53,5 +58,4 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 };
 
 // Export user model
-var userModel = mongoose.model('User', userSchema);
-exports.userModel = userModel;
+exports.userModel = mongoose.model('User', userSchema);

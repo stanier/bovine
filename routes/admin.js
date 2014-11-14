@@ -17,7 +17,12 @@ exports.lookup = function(req, res) {
         if (username || email || id) {
             user.find(query, function (err, docs) {
                 var results = [];
-                for (var x in docs) results.push({username:docs[x].username, email:docs[x].email, id:docs[x]._id});
+                for (var x in docs) results.push({username:docs[x].username,
+                                                  firstName:docs[x].firstName,
+                                                  middleName:docs[x].middleName,
+                                                  lastName:docs[x].lastName,
+                                                  email:docs[x].email, 
+                                                  id:docs[x]._id});
                 res.send(results);
             });
         }
@@ -26,24 +31,45 @@ exports.lookup = function(req, res) {
 
 exports.user = {};
 
+exports.user.create = function(req, res) {
+    checkAdmin(req, res, function() {
+        user.create(req.body, function(err, result) {
+            if (err) {
+                var message = err.message + '.';
+                for (var i; i < ) {
+                    console.log('FIELD:  ' + field);
+                }
+                res.send(message);
+                console.log(err);
+                return err;
+            }
+            res.send('User ' + result._id + ' created successfully');
+        });
+    });
+}
 exports.user.update = function(req, res) {
     checkAdmin(req, res, function() {
-        req.on('data', function (chunk) {
-            body += chunk;
-        });
-        req.on('end', function () {
-            console.log('POSTed: ' + body);
-            res.writeHead(200);
-            res.end(postHTML);
+        user.findByIdAndUpdate(req.body._id, req.body, function(err, result){
+            if (err) {
+                res.send('An error occurred');
+                return err;
+            }
+            console.log('User ' + req.body._id + ' updated successfully');
+            res.send('User updated successfully');
         });
     });
 }
 
 exports.user.edit = function(req, res) {
     checkAdmin(req, res, function() {
-        user.find({_id: url.parse(req.url, true).query.target}, function (err, docs) {
+        user.find({_id: url.parse(req.url, true).query.target}, function(err, docs) {
             res.render('dashboard/user/edit', {user: req.user, target: docs[0]});
         });
+    });
+}
+exports.user.add = function(req, res) {
+    checkAdmin(req, res, function(){
+        res.render('dashboard/user/add');
     });
 }
 
