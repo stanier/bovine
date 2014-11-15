@@ -1,27 +1,161 @@
 block head
-    script(src='js/dashboard.js')
+    script(src='js/adminDashboard.js')
 
 block dashboard
-    div(ng-controller='dashboardController')
-        .well.col-md-12
-            form(novalidate)
-                .col-md-3
-                    input.col-md-11.form-control(type='text' ng-model='username' placeholder='Enter username')
-                .col-md-3
-                    input.col-md-11.form-control(type='text' ng-model='email' placeholder='Enter email')
-                .col-md-3
-                    input.col-md-11.form-control(type='text' ng-model='id' placeholder='Enter id')
-                .col-md-3
-                    button.col-md-11.form-control(type='submit' ng-click='lookup(username, email, id)') Lookup user
-        .well.col-md-12.ng-hide(ng-show='data')
-            table.table
-                thead: tr
-                        td Username
-                        td Email
-                        td Id
-                        td
-                tbody: tr(ng-repeat='record in data')
-                        td {{ record.username }}
-                        td {{ record.email }}
-                        td {{ record.id }}
-                        td: a.btn.btn-default(href='/admin/user/edit?target={{ record.id }}'): .fa.fa-gear
+    ul.nav.nav-pills
+        li.active: a(href='#user' data-toggle='tab') User
+        li: a(href='#class' data-toggle='tab') Class
+        li: a(href='#school' data-toggle='tab') School
+    .tab-content
+        .tab-pane.active#user
+            ul.nav.nav-tabs
+                li.active: a(href='#userLookup' data-toggle='tab') Find user
+                li: a(href='#userAdd' data-toggle='tab') Add user
+            .tab-content
+                .tab-pane.active#userLookup(ng-controller='findUser')
+                    div
+                        .alert.alert-success.ng-hide(ng-show='success') {{ success }}
+                            .fa.fa-remove(ng-click='dismissSuccess()')
+                        .alert.alert-danger.ng-hide(ng-show='error') {{ error }}
+                            .fa.fa-remove(ng-click='dismissError()')
+                    .well.col-sm-12
+                        form(novalidate)
+                            .col-md-2: input.form-control(type='text' ng-model='username' placeholder='Username')
+                            .col-md-2: input.form-control(type='text' ng-model='firstName' placeholder='First name')
+                            .col-md-2: input.form-control(type='text' ng-model='middleName' placeholder='Middle name')
+                            .col-md-2: input.form-control(type='text' ng-model='lastName' placeholder='Last name')
+                            .col-md-2: input.form-control(type='text' ng-model='email' placeholder='Email')
+                            .col-md-2: button.form-control(type='submit' ng-click='lookup(username, firstName, middleName, lastName, email)') Search
+                    .well.col-sm-12.ng-hide(ng-show='data')
+                        table.table
+                            thead: tr
+                                td #
+                                td Username
+                                td Email
+                                td First Name
+                                td Middle Name
+                                td Last Name
+                                td Id
+                                td
+                            tbody: tr(ng-repeat='record in data')
+                                td {{ $index + 1 }}
+                                td {{ record.username }}
+                                td {{ record.email }}
+                                td {{ record.firstName }}
+                                td {{ record.middleName }}
+                                td {{ record.lastName }}
+                                td {{ record.id }}
+                                td
+                                    .btn-group
+                                        a.btn.btn-default(href='/admin/user/edit?target={{ record.id }}'): .fa.fa-gear
+                                        button.btn.btn-default(ng-click='remove(record.id)'): .fa.fa-remove
+                .tab-pane#userAdd(ng-controller='addUser')
+                    div
+                        .alert.alert-success.ng-hide(ng-show='success') {{ success }}
+                            .fa.fa-remove(ng-click='dismissSuccess()')
+                        .alert.alert-danger.ng-hide(ng-show='error') {{ error }}
+                            .fa.fa-remove(ng-click='dismissError()')
+                    .well.col-sm-12
+                        form.form-horizontal(novalidate)
+                            input#chrome_autofill_fix_user(type='text' style='display: none')
+                            input#chrome_autofill_fix_pass(type='password' style='display: none')
+                            .form-group.col-sm-4
+                                label.required.control-label.col-sm-4(for='userAdd_username') Username
+                                .col-sm-8: input.form-control#userAdd_username(type='text' ng-model='username')
+                            .form-group.col-sm-4
+                                label.required.control-label.col-sm-4(for='userAdd_email') Email
+                                .col-sm-8: input.form-control#userAdd_email(type='email' ng-model='email')
+                            .form-group.col-sm-4
+                                label.required.control-label.col-sm-4(for='userAdd_password') Password
+                                .col-sm-8: input.form-control#userAdd_password(type='password' ng-model='password')
+                            .form-group.col-sm-12
+                                label.required.control-label.col-sm-1 Name
+                                .col-sm-11
+                                    .col-sm-4: input.form-control(type='text' ng-model='firstName')
+                                    .col-sm-4: input.form-control(type='text' ng-model='middleName')
+                                    .col-sm-4: input.form-control(type='text' ng-model='lastName')
+                            .form-group.col-sm-6
+                                label.control-label.col-sm-2(for='userAdd_school') School
+                                .col-sm-10: select.form-control#userAdd_school(ng-model='school' ng-options='school for school in schools')
+                            .form-group.col-sm-3
+                                label.required.control-label.col-sm-4(for='userAdd_role') Role
+                                .col-sm-8
+                                    select.form-control#userAdd_role(ng-model='role')
+                                        option(value='student') Student
+                                        option(value='teacher') Teacher
+                                        option(value='manager') Manager
+                                        option(value='admin') Admin
+                            .form-group.col-sm-3
+                                label.required.control-label.col-sm-4(for='userAdd_grade') Grade
+                                .col-sm-8: input.form-control#userAdd_grade(type='number' ng-model='grade')
+                            .form-group.col-sm-4
+                                label.control-label.col-sm-2(for='userAdd_id') ID
+                                .col-sm-10: input.form-control#userAdd_id(type='text' ng-model='id' disabled)
+                            .form-group.col-sm-12
+                                .col-sm-offset-5.col-sm-2: button.col-md-11.form-control(type='submit' ng-click='write(id, username, email, password, firstName, middleName, lastName, school, role, grade)') Save Changes
+        .tab-pane#class
+            ul.nav.nav-tabs
+                li.active: a(href='#classLookup' data-toggle='tab') Find class
+                li: a(href='#classAdd' data-toggle='tab') Add class
+            .tab-content
+                .tab-pane.active#classLookup(ng-controller='findClass')
+                    div
+                        .alert.alert-success.ng-hide(ng-show='success') {{ success }}
+                            .fa.fa-remove(ng-click='dismissSuccess()')
+                        .alert.alert-danger.ng-hide(ng-show='error') {{ error }}
+                            .fa.fa-remove(ng-click='dismissError()')
+                    .well.col-sm-12
+                .tab-pane#classAdd(ng-controller='addClass')
+                    div
+                        .alert.alert-success(ng-show='success') {{ success }}
+                            .fa.fa-remove(ng-click='dismissSuccess()')
+                        .alert.alert-danger(ng-show='error') {{ error }}
+                            .fa.fa-remove(ng-click='dismissError()')
+                    .well.col-sm-12
+        .tab-pane#school
+            ul.nav.nav-tabs
+                li.active: a(href='#schoolLookup' data-toggle='tab') Find school
+                li: a(href='#schoolAdd' data-toggle='tab') Add school
+            .tab-content
+                .tab-pane.active#schoolLookup(ng-controller='findSchool')
+                    div
+                        .alert.alert-success.ng-hide(ng-show='success') {{ success }}
+                            .fa.fa-remove(ng-click='dismissSuccess()')
+                        .alert.alert-danger.ng-hide(ng-show='error') {{ error }}
+                            .fa.fa-remove(ng-click='dismissError()')
+                    .well.col-sm-12
+                        form(novalidate)
+                            .col-sm-4: input.form-control(ng-model='name' placeholder='Name')
+                            .col-sm-4
+                                select.form-control(ng-model='type')
+                                    option(value='elementary') Elementary School
+                                    option(value='junior') Junior High
+                                    option(value='high') High School
+                                    option(value='college') College
+                            .col-sm-4: button.form-control(type='submit' ng-click='lookup()') Search
+                    .well.col-sm-12.ng-hide(ng-show='data')
+                        table.table
+                            thead: tr
+                                td #
+                                td Name
+                                td Type
+                                td Website
+                                td # of Students
+                                td
+                            tbody: tr(ng-repeat='record in data')
+                                td {{ $index + 1 }}
+                                td {{ record.name }}
+                                td {{ record.type }}
+                                td {{ record.website }}
+                                td {{ record.studentCount }}
+                                td
+                                    .btn-group
+                                        a.btn.btn-default(href='/admin/user/edit?target={{ record.id }}'): .fa.fa-gear
+                                        button.btn.btn-default(ng-click='remove(record.id)'): .fa.fa-remove
+                .tab-pane#schoolAdd(ng-controller='addSchool')
+                    div
+                        .alert.alert-success.ng-hide(ng-show='success') {{ success }}
+                            .fa.fa-remove(ng-click='dismissSuccess()')
+                        .alert.alert-danger.ng-hide(ng-show='error') {{ error }}
+                            .fa.fa-remove(ng-click='dismissError()')
+                    .well.col-sm-12

@@ -1,33 +1,21 @@
-doctype html
-html
-    include head.jade
-        style
-            :css
-                .page {
-                    height: calc(100vh - 50px);
-                    width: 400px;
-                    margin-left: auto;
-                    margin-right: auto;
-                }
-    
-    body
-        include navbar.jade
-        
-        .page
-            if (message)
-                .alert.alert-danger #{message}
-    
+extends page
+
+block content
+    .col-sm-4.col-sm-offset-4
+        if (message)
+            .alert.alert-danger #{message}
+        .well
             form(action='/login', method='post')
                 div
                     h3 Username:
-                    input(type='text', name='username')
-                    br
+                    input.form-control(type='text', name='username')
                 div
                     h3 Password:
-                    input(type='password', name='password')
-                    br
+                    input.form-control(type='password', name='password')
                 div
-                    input(type='checkbox', name='rememberme')
-                    p Remember me
+                    .checkbox
+                        label
+                            input#rememberme(type='checkbox' name='rememberme')
+                            p Remember me
                 div
-                    input(type='submit', value='Submit')
+                    button.form-control(type='submit', value='Submit') Submit

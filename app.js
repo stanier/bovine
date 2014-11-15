@@ -56,11 +56,11 @@ app.get('/login', user_routes.getlogin);
 app.post('/login', user_routes.postlogin);
 app.get('/logout', user_routes.logout);
 app.get('/dashboard', user_routes.dashboard);
+app.post('/admin/user/create', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.user.create);
+app.post('/admin/user/update', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.user.update);
 app.get('/admin/lookup', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.lookup);
 app.get('/admin/user/edit', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.user.edit);
-app.post('/admin/user/update', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.user.update);
-app.get('/admin/user/add', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.user.add);
-app.post('/admin/user/create', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.user.create);
+app.get('/admin/user/remove', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.user.remove);
 
 app.listen(9500, function(){
     console.log('Express server listening on port 9500');

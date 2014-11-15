@@ -12,3 +12,15 @@ body {
   content: ' *';
   color: #f00;
 }
+.btn-toolbar {
+  margin: 10px 0;
+}
+.alert {
+  margin-top: 10px;
+}
+.alert .fa-remove {
+  float: right;
+}
+.tab-pane {
+  margin-top: 10px;
+}
