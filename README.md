@@ -25,3 +25,9 @@ minutes and require less backend work from IT.
 bovine combines the power of Node, Express and Angular to give a sleek, easy-to-use system with a minimal footprint.  This is
 not a PHP app that requires cron tasks to execute every now and then.  This is a full educational quite that can be installed
 and configured within the hour.
+
+##contributing
+
+If you would like to contribute to the project, please feel free to clone the repository and send a pull request with your
+changes.  Please note that most development of the project will show up in the dev branch, as master is reserved for stable
+releases.
