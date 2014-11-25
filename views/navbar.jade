@@ -1,0 +1,13 @@
+.navbar.navbar-default.navbar-fixed-top
+    .container
+        .col-md-3.navbar-header
+            a.navbar-brand(href='/') bovine
+        .col-md-9
+            .btn-group(role='group')
+                if !user
+                    a.btn.btn-primary#login(href='/login') Sign in
+                else
+                    a.btn.btn-primary#dashboard(href='/dashboard') Dashboard
+                    a.btn.btn-primary#account(href='/account') My Account
+                    a.btn.btn-primary#logout(href='/logout') Sign out
+                    

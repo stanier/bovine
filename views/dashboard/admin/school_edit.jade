@@ -1,0 +1,35 @@
+#schoolEdit.modal.fade(tabindex='-1' role='dialog' aria-hidden='true'): .modal-dialog: .modal-content
+    .modal-body
+        div(ng-controller='editSchool')
+            h3 Edit school
+            .alert.alert-success(ng-show='success'): {{success}}
+            .alert.alert-danger(ng-show='error'): {{error}}
+            form.form-horizontal(novalidate)
+                input#schoolEdit_chrome_autofill_fix_user(type='text' style='display: none')
+                input#schoolEdit_chrome_autofill_fix_pass(type='password' style='display: none')
+                .form-group
+                    .col-sm-2: label.control-label(for='schoolEdit_username') Name
+                    .col-sm-10: input.form-control#schoolEdit_username(type='text' ng-model='target.username')
+                .form-group
+                    .col-sm-2: label.control-label(for='schoolEdit_type') Type
+                    .col-sm-10: input.form-control#schoolEdit_type(type='email' ng-model='target.type')
+                .form-group
+                    .col-sm-2: label.control-label(for='schoolEdit_website') Website
+                    .col-sm-10: input.form-control#schoolEdit_website(type='website' ng-model='target.website')
+                .form-group
+                    .col-sm-2: label.control-label(for='schoolEdit_zipcode') Zipcode
+                    .col-sm-10: select.form-control#schoolEdit_zipcode(type='number' ng-model='target.zipcode')
+                .form-group
+                    .col-sm-2: label.control-label(for='schoolEdit_district') District
+                    .col-sm-10: input.form-control#schoolEdit_district(type='password' ng-model='target.district')
+               .form-group
+                   .col-sm-2: label.control-label(for='schoolEdit_city') City
+                   .col-sm-10: input.form-control#schoolEdit_city(type='number' ng-model='target.city')
+               .form-group
+                   .col-sm-2: label.control-label(for='schoolEdit_state') State
+                   .col-sm-10: input.form-control#schoolEdit_state(type='number' ng-model='target.state')
+               .form-group
+                   .col-sm-2: label.control-label(for='schoolEdit_id') ID
+                   .col-sm-10: input.form-control#schoolEdit_id(type='text' ng-model='target.id' disabled)
+               .modal-footer
+                   button.btn.btn-primary(type='submit' ng-click='write()') Save Changes

@@ -1,0 +1,50 @@
+extends ../dashboard
+
+block head
+    script(src='/js/user_edit.js')
+
+block content
+    div(ng-controller='userEditorController')
+        h3 Edit user
+        .alert.alert-success(ng-show='success'): {{success}}
+        .alert.alert-danger(ng-show='error'): {{error}}
+        .well.col-sm-12(ng-init='username="#{target.username}"; email="#{target.email}"; firstName="#{target.firstName}";' +
+                                 'middleName="#{target.middleName}"; lastName="#{target.lastName}"; school="#{target.school}";' +
+                                 'role="#{target.role}"; grade="#{target.grade}"; id="#{target._id}"')
+            form.form-horizontal(novalidate)
+                input#chrome_autofill_fix_user(type='text' style='display: none')
+                input#chrome_autofill_fix_pass(type='password' style='display: none')
+                .form-group.col-sm-4
+                    label.control-label.col-sm-4(for='username') Username
+                    .col-sm-8: input.form-control#username(type='text' ng-model='username')
+                .form-group.col-sm-4
+                    label.control-label.col-sm-4(for='email') Email
+                    .col-sm-8: input.form-control#email(type='email' ng-model='email')
+                .form-group.col-sm-4
+                    label.control-label.col-sm-4(for='password') Password
+                    .col-sm-8: input.form-control#password(type='password' ng-model='password' placeholder='Enter new password')
+                .form-group.col-sm-12
+                    label.control-label.col-sm-1 Name
+                    .col-sm-11
+                        .col-sm-4: input.form-control#firstname(type='text' ng-model='firstName')
+                        .col-sm-4: input.form-control#middlename(type='text' ng-model='middleName')
+                        .col-sm-4: input.form-control#lastname(type='text' ng-model='lastName')
+                .form-group.col-sm-6
+                    label.control-label.col-sm-2(for='school') School
+                    .col-sm-10: select.form-control#school(ng-model='school' ng-options='school for school in schools')
+                .form-group.col-sm-3
+                    label.control-label.col-sm-2(for='role') Role
+                    .col-sm-10
+                        select.form-control#role(ng-model='role' selected='#{target.role}')
+                            option(value='1') Student
+                            option(value='2') Teacher
+                            option(value='3') Manager
+                            option(value='4') Admin
+                .form-group.col-sm-3
+                    label.control-label.col-sm-3(for='grade') Grade
+                    .col-sm-9: input.form-control#grade(type='number' ng-model='grade')
+                .form-group.col-sm-4
+                    label.control-label.col-sm-2(for='id') ID
+                    .col-sm-10: input.form-control#id(type='text' ng-model='id' disabled)
+                .form-group.col-sm-12
+                    .col-sm-offset-5.col-sm-2: button.col-md-11.form-control(type='submit' ng-click='write(id, username, email, password, firstName, middleName, lastName, school, role, grade)') Save Changes
