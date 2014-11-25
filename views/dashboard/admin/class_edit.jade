@@ -1,0 +1,29 @@
+#classEdit.modal.fade(tabindex='-1' role='dialog' aria-hidden='true'): .modal-dialog: .modal-content
+    .modal-body
+        div(ng-controller='editClass')
+            h3 Edit class
+            .alert.alert-success(ng-show='success'): {{success}}
+            .alert.alert-danger(ng-show='error'): {{error}}
+            form.form-horizontal(novalidate)
+                input#classEdit_chrome_autofill_fix_user(type='text' style='display: none')
+                input#classEdit_chrome_autofill_fix_pass(type='password' style='display: none')
+                .form-group
+                    .col-sm-2: label.control-label(for='classEdit_name') Name
+                    .col-sm-10: input.form-control#classEdit_username(type='text' ng-model='target.name')
+                .form-group
+                    .col-sm-2: label.control-label(for='classEdit_category') Category
+                    .col-sm-10: input.form-control#classEdit_email(type='email' ng-model='target.category')
+                .form-group
+                    .col-sm-2: label.control-label(for='classEdit_website') Website
+                    .col-sm-10: input.form-control#classEdit_password(type='text' ng-model='target.website')
+                .form-group
+                    .col-sm-2: label.control-label(for='classEdit_grade') Grade
+                    .col-sm-10: input.form-control#classEdit_grade(type='number' ng-model='target.grade')
+                .form-group
+                    .col-sm-2: label.control-label(for='classEdit_teacher') Teacher
+                    .col-sm-10: input.form-control#classEdit_teacher(type='text' ng-mode='target.teacher')
+                .form-group
+                    .col-sm-2: label.control-label(for='classEdit_id') ID
+                    .col-sm-10: input.form-control#classEdit_id(type='text' ng-model='target.id' disabled)
+                .modal-footer
+                    button.btn.btn-primary(type='submit' ng-click='write()') Save Changes

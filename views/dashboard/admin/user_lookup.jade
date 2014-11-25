@@ -1,0 +1,37 @@
+.tab-pane.active#userLookup(ng-controller='findUser')
+    div
+        .alert.alert-success.ng-hide(ng-show='success') {{ success }}
+            .fa.fa-remove(ng-click='dismissSuccess()')
+        .alert.alert-danger.ng-hide(ng-show='error') {{ error }}
+            .fa.fa-remove(ng-click='dismissError()')
+    .well.col-sm-12
+        form(novalidate)
+            .col-md-2: input.form-control(type='text' ng-model='username' placeholder='Username')
+            .col-md-2: input.form-control(type='text' ng-model='firstName' placeholder='First name')
+            .col-md-2: input.form-control(type='text' ng-model='middleName' placeholder='Middle name')
+            .col-md-2: input.form-control(type='text' ng-model='lastName' placeholder='Last name')
+            .col-md-2: input.form-control(type='text' ng-model='email' placeholder='Email')
+            .col-md-2: button.form-control(type='submit' ng-click='lookup(username, firstName, middleName, lastName, email)') Search
+    .well.col-sm-12.ng-hide(ng-show='data')
+        table.table
+            thead: tr
+                td #
+                td Username
+                td Email
+                td First Name
+                td Middle Name
+                td Last Name
+                td Id
+                td
+            tbody: tr(ng-repeat='record in data')
+                td {{ $index + 1 }}
+                td {{ record.username }}
+                td {{ record.email }}
+                td {{ record.firstName }}
+                td {{ record.middleName }}
+                td {{ record.lastName }}
+                td {{ record.id }}
+                td
+                    .btn-group
+                        button.btn.btn-default(ng-click='shareTarget(record.id)' data-toggle='modal' data-target='#userEdit'): .fa.fa-gear
+                        button.btn.btn-default(ng-click='remove(record.id)'): .fa.fa-remove

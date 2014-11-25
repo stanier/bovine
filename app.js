@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var methodOverride = require('method-override');
 var session = require('express-session');
+var mongoStore = require('connect-mongo')(session);
+var flash = require('connect-flash');
 
 // jade == express.called
 var stylus = require('stylus');
@@ -16,15 +18,15 @@ var nib = require('nib');
 var db = require('./config/dbschema');
 var pass = require('./config/pass');
 
-var basic_routes = require('./routes/basic');
-var user_routes = require('./routes/user');
-var admin_routes = require('./routes/admin');
-
+var port = 8080;
 var app = express();
 
 function compile(str, path) {
     return stylus(str).set('filename', path).use(nib())
 }
+
+if (app.get('env') == 'production') port = 9501;
+else if (app.get('env') == 'development') port = 9500;
 
 app.set('views', __dirname + '/views');
 app.locals.basedir = app.get('views');
@@ -37,31 +39,33 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(session({
     secret: 'snughtiwswoc',
+    resave: false,
     saveUninitialized: false,
-    resave: false
+    store: new mongoStore({
+        db: 'bovineSessions',
+        host: 'localhost'
+    })
 }));
+app.use(flash());
+
+/*app.get('/flash', function(req, res){
+  // Set a flash message by passing the key, followed by the value, to req.flash().
+  req.flash('info', 'Flash is back!')
+  res.redirect('/');
+});*/
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use(stylus.middleware({
     src: __dirname + '/static',
     compile: compile
 }));
 app.use(express.static(__dirname + '/static'));
 
-app.get('/', basic_routes.index);
-app.get('/account', pass.ensureAuthenticated, user_routes.account);
-app.get('/login', user_routes.getlogin);
-app.post('/login', user_routes.postlogin);
-app.get('/logout', user_routes.logout);
-app.get('/dashboard', user_routes.dashboard);
-app.post('/admin/user/create', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.user.create);
-app.post('/admin/user/update', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.user.update);
-app.get('/admin/lookup', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.lookup);
-app.get('/admin/user/edit', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.user.edit);
-app.get('/admin/user/remove', pass.ensureAuthenticated, pass.ensureAdmin, admin_routes.user.remove);
+var router = require('./router')(app);
 
-app.listen(9500, function(){
-    console.log('Express server listening on port 9500');
+app.listen(port, function(){
+    var mode = '';
+    if (app.get('env') == 'development') mode = ' in development mode'
+    console.log('bovine started on port ' + port + mode);
 });

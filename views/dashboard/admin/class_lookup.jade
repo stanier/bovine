@@ -1,0 +1,38 @@
+.tab-pane.active#classLookup(ng-controller='findClass')
+    div
+        .alert.alert-success.ng-hide(ng-show='success') {{ success }}
+            .fa.fa-remove(ng-click='dismissSuccess()')
+        .alert.alert-danger.ng-hide(ng-show='error') {{ error }}
+            .fa.fa-remove(ng-click='dismissError()')
+    .well.col-sm-12
+        form(novalidate)
+            .col-sm-2: input.form-control(ng-model='name' placeholder='Name')
+            .col-sm-2
+                select.form-control(ng-model='category')
+                    option(value='' selected) --Type--
+                    option(value='english') English
+                    option(value='mathematics') Mathematics
+                    option(value='extracurricular') Extracurricular
+                    option(value='other') Other
+            .col-sm-3: input.form-control(ng-model='website' placeholder='Website')
+            .col-sm-2: input.form-control(ng-model='grade' placeholder='Grade')
+            .col-sm-3: button.form-control(type='submit' ng-click='lookup(name, category, website, grade)') Search
+    .well.col-sm-12.ng-hide(ng-show='data')
+        table.table
+            thead: tr
+                td #
+                td Name
+                td Category
+                td Website
+                td Grade
+                td
+            tbody: tr(ng-repeat='record in data')
+                td {{ $index + 1 }}
+                td {{ record.name }}
+                td {{ record.category }}
+                td {{ record.website }}
+                td {{ record.grade }}
+                td
+                    .btn-group
+                        button.btn.btn-default(ng-click='shareTarget(record.id)' data-toggle='modal' data-target='#classEdit'): .fa.fa-gear
+                        button.btn.btn-default(ng-click='remove(record.id)'): .fa.fa-remove

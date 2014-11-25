@@ -36,10 +36,10 @@ block content
                     label.control-label.col-sm-2(for='role') Role
                     .col-sm-10
                         select.form-control#role(ng-model='role' selected='#{target.role}')
-                            option(value='student') Student
-                            option(value='teacher') Teacher
-                            option(value='manager') Manager
-                            option(value='admin') Admin
+                            option(value='1') Student
+                            option(value='2') Teacher
+                            option(value='3') Manager
+                            option(value='4') Admin
                 .form-group.col-sm-3
                     label.control-label.col-sm-3(for='grade') Grade
                     .col-sm-9: input.form-control#grade(type='number' ng-model='grade')

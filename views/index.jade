@@ -1,4 +1,6 @@
 extends page
 
 block content
+    if !(message == '')
+        .alert.alert-danger #{message}
     h1 Index page

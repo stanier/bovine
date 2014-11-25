@@ -24,3 +24,6 @@ body {
 .tab-pane {
   margin-top: 10px;
 }
+.form-control {
+  margin: 5px 0;
+}

@@ -1,0 +1,38 @@
+.tab-pane#schoolAdd(ng-controller='addSchool')
+    div
+        .alert.alert-success.ng-hide(ng-show='success') {{ success }}
+            .fa.fa-remove(ng-click='dismissSuccess()')
+        .alert.alert-danger.ng-hide(ng-show='error') {{ error }}
+            .fa.fa-remove(ng-click='dismissError()')
+    .well.col-sm-12
+        form.form-horizontal(novalidate)
+            .form-group.col-sm-4
+                label.required.control-label.col-sm-3(for='schoolAdd_name') Name
+                .col-sm-9: input.form-control#schoolAdd_name(type='text' ng-model='name')
+            .form-group.col-sm-4
+                label.required.control-label.col-sm-3(for='schoolAdd_type') Type
+                .col-sm-9
+                    select.form-control#schoolAdd_type(ng-model='type')
+                        option(value='' selected) --Type--
+                        option(value='elementary') Elementary School
+                        option(value='junior') Junior High
+                        option(value='high') High School
+                        option(value='college') College
+                        option(value='other') Other
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='schoolAdd_website') Website
+                .col-sm-9: input.form-control#schoolAdd_website(type='text' ng-model='website')
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='schoolAdd_zipcode') Zipcode
+                .col-sm-9: input.form-control#schoolAdd_zipcode(type='text' ng-model='zipcode')
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='schoolAdd_website') District
+                .col-sm-9: input.form-control#schoolAdd_district(type='text' ng-model='district')
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='schoolAdd_city') City
+                .col-sm-9: input.form-control#schoolAdd_city(type='text' ng-model='city')
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='schoolAdd_state') State
+                .col-sm-9: input.form-control#schoolAdd_state(type='text' ng-model='state')
+            .form-group.col-sm-12
+                .col-sm-offset-5.col-sm-2: button.col-md-11.form-control(type='submit' ng-click='write(name, type, website, zipcode, district, city, state)') Create school

@@ -2,7 +2,7 @@ extends page
 
 block content
     .col-sm-4.col-sm-offset-4
-        if (message)
+        if !(message == '')
             .alert.alert-danger #{message}
         .well
             form(action='/login', method='post')

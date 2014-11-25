@@ -1,0 +1,37 @@
+.tab-pane#classAdd(ng-controller='addClass')
+    div
+        .alert.alert-success(ng-show='success') {{ success }}
+            .fa.fa-remove(ng-click='dismissSuccess()')
+        .alert.alert-danger(ng-show='error') {{ error }}
+            .fa.fa-remove(ng-click='dismissError()')
+    .well.col-sm-12(ng-init='getTeachers()')
+        form.form-horizontal(novalidate)
+            .form-group.col-sm-4
+                label.required.control-label.col-sm-3(for='classAdd_name') Name
+                .col-sm-9: input.form-control#classAdd_name(type='text' ng-model='name')
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='classAdd_category') Category
+                .col-sm-9
+                    select.form-control#classAdd_type(ng-model='category')
+                        option(value='' selected) --Category--
+                        option(value='english') English
+                        option(value='mathematics') Mathematics
+                        option(value='extracurricular') Extracurricular
+                        option(value='other') Other
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='classAdd_website') Website
+                .col-sm-9: input.form-control#classAdd_website(type='text' ng-model='website')
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='classAdd_grade') Grade
+                .col-sm-9: input.form-control#classAdd_grade(type='number' ng-model='grade')
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='classAdd_school') School
+                .col-sm-9: input.form-control#classAdd_school(type='text' ng-model='school')
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='classAdd_teacher') Teacher
+                .col-sm-9
+                    select.form-control#classAdd_teacher(type='text' ng-model='teacher')
+                        option(value='') --Teacher--
+                        option(ng-repeat='teacher in teachers' value='{{teacher.id}}') {{teacher.firstName}} {{teacher.lastName}}
+            .form-group.col-sm-12
+                .col-sm-offset-5.col-sm-2: button.form-control(type='submit' ng-click='write(name, type, website, grade, teacher)') Add class

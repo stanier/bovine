@@ -1,0 +1,44 @@
+.tab-pane#userAdd(ng-controller='addUser')
+    div
+        .alert.alert-success.ng-hide(ng-show='success') {{ success }}
+            .fa.fa-remove(ng-click='dismissSuccess()')
+        .alert.alert-danger.ng-hide(ng-show='error') {{ error }}
+            .fa.fa-remove(ng-click='dismissError()')
+    .well.col-sm-12
+        form.form-horizontal(novalidate)
+            input#userAdd_chrome_autofill_fix_user(type='text' style='display: none')
+            input#userAdd_chrome_autofill_fix_pass(type='password' style='display: none')
+            .form-group.col-sm-4
+                label.required.control-label.col-sm-4(for='userAdd_username') Username
+                .col-sm-8: input.form-control#userAdd_username(type='text' ng-model='username')
+            .form-group.col-sm-4
+                label.required.control-label.col-sm-4(for='userAdd_email') Email
+                .col-sm-8: input.form-control#userAdd_email(type='email' ng-model='email')
+            .form-group.col-sm-4
+                label.required.control-label.col-sm-4(for='userAdd_password') Password
+                .col-sm-8: input.form-control#userAdd_password(type='password' ng-model='password')
+            .form-group.col-sm-12
+                label.required.control-label.col-sm-1 Name
+                .col-sm-11
+                    .col-sm-4: input.form-control(type='text' ng-model='firstName')
+                    .col-sm-4: input.form-control(type='text' ng-model='middleName')
+                    .col-sm-4: input.form-control(type='text' ng-model='lastName')
+            .form-group.col-sm-6
+                label.control-label.col-sm-2(for='userAdd_school') School
+                .col-sm-10: select.form-control#userAdd_school(ng-model='school' ng-options='school for school in schools')
+            .form-group.col-sm-3
+                label.required.control-label.col-sm-4(for='userAdd_role') Role
+                .col-sm-8
+                    select.form-control#userAdd_role(ng-model='role')
+                        option(value='1') Student
+                        option(value='2') Teacher
+                        option(value='3') Manager
+                        option(value='4') Admin
+            .form-group.col-sm-3
+                label.required.control-label.col-sm-4(for='userAdd_grade') Grade
+                .col-sm-8: input.form-control#userAdd_grade(type='number' ng-model='grade')
+            .form-group.col-sm-4
+                label.control-label.col-sm-2(for='userAdd_id') ID
+                .col-sm-10: input.form-control#userAdd_id(type='text' ng-model='id' disabled)
+            .form-group.col-sm-12
+                .col-sm-offset-5.col-sm-2: button.col-md-11.form-control(type='submit' ng-click='write(id, username, email, password, firstName, middleName, lastName, school, role, grade)') Create user
