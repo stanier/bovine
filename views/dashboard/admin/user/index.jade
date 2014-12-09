@@ -1,0 +1,10 @@
+.tab-pane.active#user
+    ul.nav.nav-tabs
+        li.active: a(href='#userLookup' data-toggle='tab') Find user
+            div(class="ripple-wrapper")
+        li: a(href='#userAdd' data-toggle='tab') Add user
+            div(class="ripple-wrapper")
+    .tab-content
+        include add
+        include edit
+        include lookup

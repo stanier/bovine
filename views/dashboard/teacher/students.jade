@@ -1,0 +1,41 @@
+#students.tab-pane(role='tabpanel' style='overflow:auto')
+    h3 Students
+    .pull-right: button.btn.btn-primary(data-toggle='modal' data-target='#enroll') Enroll student
+    table.table(ng-show='students')
+        thead: tr
+            td Student ID
+            td Name
+            td Email
+            td Grade
+            td
+        tbody: tr(ng-repeat='student in students')
+            td {{ student._id }}
+            td {{ student.firstName }} {{ student.middleName }} {{ student.lastName }}
+            td {{ student.email }}
+            td {{ student.grade }}
+            td: button.btn.btn-primary(ng-click='drop(target.id, student._id)') Drop
+#enroll.modal.fade: .modal-dialog: .modal-content(style='overflow:auto')
+    .modal-body
+        form(novalidate style='overflow:auto')
+            .col-xs-4: input.form-control(type='text' ng-model='username   ' placeholder='Username    ')
+            .col-xs-4: input.form-control(type='text' ng-model='firstName  ' placeholder='First name  ')
+            .col-xs-4: input.form-control(type='text' ng-model='middleName ' placeholder='Middle name ')
+            .col-xs-4: input.form-control(type='text' ng-model='lastName   ' placeholder='Last name   ')
+            .col-xs-4: input.form-control(type='text' ng-model='email      ' placeholder='Email       ')
+            .col-xs-4
+                button.btn.btn-primary(type='submit' ng-click='lookup(username, firstName, middleName, lastName, email)')
+                    | Search
+    .col-xs-12.ng-hide(ng-show='enrollStudents')
+        table.table
+            thead: tr
+                td #
+                td Username
+                td Full Name
+                td Email
+                td
+            tbody: tr(ng-repeat='student in enrollStudents')
+                td {{ $index + 1 }}
+                td {{ student.username   }}
+                td {{ student.firstName  }} {{ student.middleName }} {{ student.lastName }}
+                td {{ student.email      }}
+                td: button.btn.btn-primary(ng-click='enroll(target.id, student.id)') Enroll

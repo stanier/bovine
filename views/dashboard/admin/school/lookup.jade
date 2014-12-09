@@ -1,9 +1,4 @@
 .tab-pane.active#schoolLookup(ng-controller='findSchool')
-    div
-        .alert.alert-success.ng-hide(ng-show='success') {{ success }}
-            .fa.fa-remove(ng-click='dismissSuccess()')
-        .alert.alert-danger.ng-hide(ng-show='error') {{ error }}
-            .fa.fa-remove(ng-click='dismissError()')
     .well.col-sm-12
         form(novalidate)
             .col-sm-3: input.form-control(ng-model='name' placeholder='Name')
@@ -41,7 +36,6 @@
                 td {{ record.district }}
                 td {{ record.city }}
                 td {{ record.state }}
-                td
-                    .btn-group
-                        button.btn.btn-default(ng-click='shareTarget(record.id)' data-toggle='modal' data-target='#schoolEdit'): .fa.fa-gear
-                        button.btn.btn-default(ng-click='remove(record.id)'): .fa.fa-remove
+                td.btn-group
+                    button.btn.btn-primary(ng-click='shareTarget(record.id)' data-toggle='modal' data-target='#schoolEdit'): .fa.fa-gear
+                    button.btn.btn-primary(ng-click='remove(record.id)'): .fa.fa-remove

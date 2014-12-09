@@ -1,9 +1,4 @@
 .tab-pane.active#userLookup(ng-controller='findUser')
-    div
-        .alert.alert-success.ng-hide(ng-show='success') {{ success }}
-            .fa.fa-remove(ng-click='dismissSuccess()')
-        .alert.alert-danger.ng-hide(ng-show='error') {{ error }}
-            .fa.fa-remove(ng-click='dismissError()')
     .well.col-sm-12
         form(novalidate)
             .col-md-2: input.form-control(type='text' ng-model='username' placeholder='Username')
@@ -31,7 +26,6 @@
                 td {{ record.middleName }}
                 td {{ record.lastName }}
                 td {{ record.id }}
-                td
-                    .btn-group
-                        button.btn.btn-default(ng-click='shareTarget(record.id)' data-toggle='modal' data-target='#userEdit'): .fa.fa-gear
-                        button.btn.btn-default(ng-click='remove(record.id)'): .fa.fa-remove
+                td.btn-group
+                    button.btn.btn-primary(ng-click='shareTarget(record.id)' data-toggle='modal' data-target='#userEdit'): .fa.fa-gear
+                    button.btn.btn-primary(ng-click='remove(record.id)'): .fa.fa-remove

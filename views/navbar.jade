@@ -2,12 +2,16 @@
     .container
         .col-md-3.navbar-header
             a.navbar-brand(href='/') bovine
+                div(class='ripple-wrapper')
         .col-md-9
             .btn-group(role='group')
                 if !user
-                    a.btn.btn-primary#login(href='/login') Sign in
+                    a.btn.btn-white#login(href='/login') Sign in
                 else
-                    a.btn.btn-primary#dashboard(href='/dashboard') Dashboard
-                    a.btn.btn-primary#account(href='/account') My Account
-                    a.btn.btn-primary#logout(href='/logout') Sign out
+                    a.btn.btn-white#dashboard(href='/') Dashboard
+                        div(class='ripple-wrapper')
+                    a.btn.btn-white#account(href='/account') My Account
+                        div(class='ripple-wrapper')
+                    a.btn.btn-white#logout(href='/logout') Sign out
+                        div(class='ripple-wrapper')
                     

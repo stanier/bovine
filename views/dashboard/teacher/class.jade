@@ -1,0 +1,11 @@
+#class.tab-pane(role='tabpanel' ng-controller='editClass')
+    button.btn.btn-fab.btn-material-red(href='#classes' data-toggle='tab')
+        i.mdi-navigation-arrow-back
+    ul.nav.nav-tabs
+        li.active: a(href='#edit' data-toggle='tab') Class
+        li: a(href='#students' data-toggle='tab') Students
+        li: a(href='#grades' data-toggle='tab') Grades
+    .well.tab-content
+        include edit
+        include students
+        include grades

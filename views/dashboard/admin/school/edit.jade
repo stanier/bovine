@@ -2,8 +2,6 @@
     .modal-body
         div(ng-controller='editSchool')
             h3 Edit school
-            .alert.alert-success(ng-show='success'): {{success}}
-            .alert.alert-danger(ng-show='error'): {{error}}
             form.form-horizontal(novalidate)
                 input#schoolEdit_chrome_autofill_fix_user(type='text' style='display: none')
                 input#schoolEdit_chrome_autofill_fix_pass(type='password' style='display: none')

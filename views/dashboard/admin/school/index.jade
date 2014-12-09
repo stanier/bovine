@@ -1,0 +1,10 @@
+.tab-pane#school
+    ul.nav.nav-tabs
+        li.active: a(href='#schoolLookup' data-toggle='tab') Find school
+            div(class="ripple-wrapper")
+        li: a(href='#schoolAdd' data-toggle='tab') Add school
+            div(class="ripple-wrapper")
+    .tab-content
+        include add
+        include edit
+        include lookup
