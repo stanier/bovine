@@ -3,13 +3,13 @@ extends /page
 block content
     case user.role
         when 4
-            include admin.jade
+            include admin/index.jade
         when 3
-            include manager.jade
+            include manager/index.jade
         when 2
-            include teacher.jade
+            include teacher/index.jade
         when 1
-            include student.jade
+            include student/index.jade
         default
             h3 Access denied
             p We're sorry, but we could not render your page.  Perhaps you are

@@ -1,33 +1,32 @@
-var express = require('express');
+var express  = require('express');
 var passport = require('passport');
 
 // middleware
-var logger = require('morgan');
-var multer = require('multer');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
+var logger         = require('morgan');
+var multer         = require('multer');
+var bodyParser     = require('body-parser');
+var cookieParser   = require('cookie-parser');
 var methodOverride = require('method-override');
-var session = require('express-session');
-var mongoStore = require('connect-mongo')(session);
-var flash = require('connect-flash');
+var session        = require('express-session');
+var mongoStore     = require('connect-mongo')(session);
+var flash          = require('connect-flash');
 
-// jade == express.called
+// Call the compilers
 var stylus = require('stylus');
-var nib = require('nib');
+var nib    = require('nib');
 
-var db = require('./config/dbschema');
+var db   = require('./config/dbschema');
 var pass = require('./config/pass');
 
 var port = 8080;
-var app = express();
+var app  = express();
 
-function compile(str, path) {
-    return stylus(str).set('filename', path).use(nib())
-}
+function compile(str, path) { return stylus(str).set('filename', path).use(nib()) }
 
 if (app.get('env') == 'production') port = 9501;
 else if (app.get('env') == 'development') port = 9500;
 
+// Declare the dynamic view directory 
 app.set('views', __dirname + '/views');
 app.locals.basedir = app.get('views');
 app.set('view engine', 'jade');
@@ -47,12 +46,6 @@ app.use(session({
     })
 }));
 app.use(flash());
-
-/*app.get('/flash', function(req, res){
-  // Set a flash message by passing the key, followed by the value, to req.flash().
-  req.flash('info', 'Flash is back!')
-  res.redirect('/');
-});*/
 
 app.use(passport.initialize());
 app.use(passport.session());

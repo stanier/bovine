@@ -1,9 +1,4 @@
 .tab-pane#classAdd(ng-controller='addClass')
-    div
-        .alert.alert-success(ng-show='success') {{ success }}
-            .fa.fa-remove(ng-click='dismissSuccess()')
-        .alert.alert-danger(ng-show='error') {{ error }}
-            .fa.fa-remove(ng-click='dismissError()')
     .well.col-sm-12(ng-init='getTeachers()')
         form.form-horizontal(novalidate)
             .form-group.col-sm-4
@@ -34,4 +29,7 @@
                         option(value='') --Teacher--
                         option(ng-repeat='teacher in teachers' value='{{teacher.id}}') {{teacher.firstName}} {{teacher.lastName}}
             .form-group.col-sm-12
-                .col-sm-offset-5.col-sm-2: button.form-control(type='submit' ng-click='write(name, type, website, grade, teacher)') Add class
+                label.control-label.col-sm-3(for='classAdd_desc') Description
+                .col-sm-9: textarea.form-control#classAdd_school(type='text' ng-model='desc' cols='50' rows='5')
+            .form-group.col-sm-12
+                .col-sm-offset-5.col-sm-2: button.form-control(type='submit' ng-click='write(name, type, website, grade, teacher, desc)') Add class

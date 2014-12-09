@@ -1,9 +1,4 @@
 .tab-pane#userAdd(ng-controller='addUser')
-    div
-        .alert.alert-success.ng-hide(ng-show='success') {{ success }}
-            .fa.fa-remove(ng-click='dismissSuccess()')
-        .alert.alert-danger.ng-hide(ng-show='error') {{ error }}
-            .fa.fa-remove(ng-click='dismissError()')
     .well.col-sm-12
         form.form-horizontal(novalidate)
             input#userAdd_chrome_autofill_fix_user(type='text' style='display: none')

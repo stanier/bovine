@@ -1,15 +1,21 @@
-var express = require('express');
-var router = express.Router();
-var pass = require('../config/pass');
-var classModel = require('../config/dbschema').model.class;
+var router = require('express').Router();
+var pass   = require('../config/pass');
 
-function listClasses(req, res) {
-    // TODO:  code function for getting class list
-    classModel.find({teacher: req.user._id}, function(err, docs) {
-        res.send(docs);
-    });
-};
+var url         = require('url');
+var userModel   = require('../config/dbschema').model.user;
+var classModel  = require('../config/dbschema').model.class;
+var schoolModel = require('../config/dbschema').model.school;
 
-router.get('/classes/list', pass.ensureTeacher, listClasses);
+var teacher = {
+    lookup: function(req, res) {
+        
+    },
+    list: function(req, res) {
+        
+    }
+}
+
+router.get('/lookup', teacher.lookup);
+router.get('/list'  , teacher.list);
 
 module.exports = router;

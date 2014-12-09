@@ -2,8 +2,6 @@
     .modal-body
         div(ng-controller='editClass')
             h3 Edit class
-            .alert.alert-success(ng-show='success'): {{success}}
-            .alert.alert-danger(ng-show='error'): {{error}}
             form.form-horizontal(novalidate)
                 input#classEdit_chrome_autofill_fix_user(type='text' style='display: none')
                 input#classEdit_chrome_autofill_fix_pass(type='password' style='display: none')
@@ -25,5 +23,8 @@
                 .form-group
                     .col-sm-2: label.control-label(for='classEdit_id') ID
                     .col-sm-10: input.form-control#classEdit_id(type='text' ng-model='target.id' disabled)
+                .form-group
+                    .col-sm-2: label.control-label(for='classEdit_desc') Description
+                    .col-sm-10: textarea.form-control#classEdit_desc(type='text' ng-model='target.desc' cols='50' rows='5')
                 .modal-footer
                     button.btn.btn-primary(type='submit' ng-click='write()') Save Changes

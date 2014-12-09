@@ -1,13 +1,11 @@
 block head
-    script(src='js/dashboard/teacher.js')
+    script(src='/js/dashboard/teacher.js')
     
 block dashboard
-    //ul.nav.nav-pills
-        li: a(href='#classes' data-toggle='tab') Classes
     .tab-content
         .tab-pane.active#classes(ng-controller='teacherModule')
             h3 Classes
-            .well.col-sm-12(ng-init='getClasses()')
+            .well.col-sm-12
                 p(ng-hide='data')
                     | No classes found.  Please check with a manager or admin to make sure that you are assigned as teacher to a class
                 table.table(ng-show='data')
@@ -22,7 +20,6 @@ block dashboard
                         td {{ class.name }}
                         td {{ class.website }}
                         td {{ class.grade }}
-                        td
-                            .btn-group
-                                a.btn.btn-default(href='/admin/class/edit?target={{ record.id }}'): .fa.fa-gear
-                                button.btn.btn-default(ng-click='remove(record.id)'): .fa.fa-remove
+                        td.btn-group
+                            button.btn.btn-primary(ng-click='edit(class.id)' href='#class' data-toggle='tab'): .fa.fa-gear
+        include class

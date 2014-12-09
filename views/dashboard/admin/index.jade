@@ -1,0 +1,12 @@
+block head
+    script(src='/js/dashboard/admin.js')
+
+block dashboard
+    ul.nav.nav-pills
+        li.active: a(href='#user' data-toggle='tab') User
+        li: a(href='#class' data-toggle='tab') Class
+        li: a(href='#school' data-toggle='tab') School
+    .tab-content
+        include user/index
+        include class/index
+        include school/index
