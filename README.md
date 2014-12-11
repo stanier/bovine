@@ -18,4 +18,4 @@ NOTE:  bovine is still in alpha.  We have a far ways to go before our first rele
 contributing
 ===
 
-Please see [the all-knowing README file](https://github.com/stanier/bovine/blob/master/README.md)
+Please see [the all-knowing CONTRIBUTING file](https://github.com/stanier/bovine/blob/master/CONTRIBUTING.md)
