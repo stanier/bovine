@@ -1,0 +1,27 @@
+#edit.tab-pane.active(role='tabpanel')
+    form.form-horizontal(novalidate)
+        input#edit_chrome_autofill_fix_user(type='text' style='display: none')
+        input#edit_chrome_autofill_fix_pass(type='password' style='display: none')
+        .form-group
+            .col-sm-2: label.control-label(for='editName') Name
+            .col-sm-10: input.form-control#editName(type='text' ng-model='target.name')
+        .form-group
+            .col-sm-2: label.control-label(for='editCategory') Category
+            .col-sm-10: input.form-control#editCategory(type='email' ng-model='target.category')
+        .form-group
+            .col-sm-2: label.control-label(for='editWebsite') Website
+            .col-sm-10: input.form-control#editWebsite(type='text' ng-model='target.website')
+        .form-group
+            .col-sm-2: label.control-label(for='editGrade') Grade
+            .col-sm-10: input.form-control#editGrade(type='number' ng-model='target.grade')
+        .form-group
+            .col-sm-2: label.control-label(for='editTeacher') Teacher
+            .col-sm-10: input.form-control#editTeacher(type='text' ng-mode='target.teacher')
+        .form-group
+            .col-sm-2: label.control-label(for='editId') ID
+            .col-sm-10: input.form-control#editId(type='text' ng-model='target.id' disabled)
+        .form-group
+            .col-sm-2: label.control-label(for='editDesc') Description
+            .col-sm-10: textarea.form-control#editDesc(type='text' ng-model='target.desc' cols='50' rows='5')
+        .modal-footer
+            button.btn.btn-primary(type='submit' ng-click='write()') Save Changes

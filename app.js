@@ -23,8 +23,9 @@ var app  = express();
 
 function compile(str, path) { return stylus(str).set('filename', path).use(nib()) }
 
-if (app.get('env') == 'production') port = 9501;
-else if (app.get('env') == 'development') port = 9500;
+if      (app.get('env') == 'production'     ) port = 80;
+else if (app.get('env') == 'development'    ) port = 9500;
+else                                          port = 9501;
 
 // Declare the dynamic view directory 
 app.set('views', __dirname + '/views');
@@ -37,8 +38,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(session({
-    secret: 'snughtiwswoc',
-    resave: false,
+    secret:            'snughtiwswoc',
+    resave:            false,
     saveUninitialized: false,
     store: new mongoStore({
         db: 'bovineSessions',

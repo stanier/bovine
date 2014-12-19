@@ -1,25 +1,12 @@
-block head
-    script(src='/js/dashboard/teacher.js')
-    
 block dashboard
-    .tab-content
-        .tab-pane.active#classes(ng-controller='teacherModule')
-            h3 Classes
-            .well.col-sm-12
-                p(ng-hide='data')
-                    | No classes found.  Please check with a manager or admin to make sure that you are assigned as teacher to a class
-                table.table(ng-show='data')
-                    thead: tr
-                        td #
-                        td Name
-                        td Website
-                        td Grade
-                        td
-                    tbody: tr(ng-repeat='class in data')
-                        td {{ $index + 1 }}
-                        td {{ class.name }}
-                        td {{ class.website }}
-                        td {{ class.grade }}
-                        td.btn-group
-                            button.btn.btn-primary(ng-click='edit(class.id)' href='#class' data-toggle='tab'): .fa.fa-gear
-        include class
+    script(src='/js/dashboard/teacher.js')
+    div(ng-controller='dashboardController' ng-init='getEnrolled()')
+        .col-md-9.col-xs-12
+            h3 Instructed classes:
+            .panel.panel-primary(ng-repeat='class in enrolled')
+                .panel-heading
+                    h4.panel-title {{ class.name }}
+                .panel-body(ng-init='parseDesc(class)' ng-bind-html='class.parsedDesc')
+                .panel-footer.clearfix
+                    p.pull-left Instructed by {{ class.teacher.name }}
+                    a.btn.btn-primary.pull-right(href='/class/{{ class.id }}') Go to class

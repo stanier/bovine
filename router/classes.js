@@ -1,9 +1,10 @@
 var router = require('express').Router();
 var pass   = require('../config/pass');
+var url    = require('url');
 
-var url        = require('url');
-var userModel  = require('../config/dbschema').model.user;
-var classModel = require('../config/dbschema').model.class;
+var userModel   = require('../config/dbschema').model.user   ;
+var classModel  = require('../config/dbschema').model.class  ;
+var moduleModel = require('../config/dbschema').model.module ;
 
 var classes = {
     lookup: function(req, res) {
@@ -16,13 +17,13 @@ var classes = {
         var teacher  = input.teacher  ;
         var query = {};
 
-        if (id       ) query._id      = id       ;
-        if (name     ) query.name     = name     ;
-        if (category ) query.category = category ;
-        if (website  ) query.website  = website  ;
-        if (grade    ) query.grade    = grade    ;
-        if (teacher  ) query.teacher  = teacher  ;
-        if (id || name || category || website || grade || teacher) {
+        if ( id       ) query._id      = id       ;
+        if ( name     ) query.name     = name     ;
+        if ( category ) query.category = category ;
+        if ( website  ) query.website  = website  ;
+        if ( grade    ) query.grade    = grade    ;
+        if ( teacher  ) query.teacher  = teacher  ;
+        if ( id || name || category || website || grade || teacher ) {
             classModel.find(query, function (err, docs) {
                 var results = [];
                 for (var x in docs) results.push({name     : docs[x].name     ,
@@ -31,6 +32,7 @@ var classes = {
                                                   grade    : docs[x].grade    ,
                                                   teacher  : docs[x].teacher  ,
                                                   desc     : docs[x].desc     ,
+                                                  modules  : docs[x].modules  ,
                                                   id       : docs[x]._id      });
                 res.send(results);
             });
@@ -47,12 +49,12 @@ var classes = {
     },
     update: function(req, res) {
         classModel.findById(req.body._id, function(err, selected) {
-            if (req.body.name     ) selected.name     = req.body.name     ;
-            if (req.body.category ) selected.category = req.body.category ;
-            if (req.body.website  ) selected.website  = req.body.website  ;
-            if (req.body.grade    ) selected.grade    = req.body.grade    ;
-            if (req.body.teacher  ) selected.teacher  = req.body.teacher  ;
-            if (req.body.desc     ) selected.desc     = req.body.desc     ;
+            if ( req.body.name     ) selected.name     = req.body.name     ;
+            if ( req.body.category ) selected.category = req.body.category ;
+            if ( req.body.website  ) selected.website  = req.body.website  ;
+            if ( req.body.grade    ) selected.grade    = req.body.grade    ;
+            if ( req.body.teacher  ) selected.teacher  = req.body.teacher  ;
+            if ( req.body.desc     ) selected.desc     = req.body.desc     ;
             selected.save(function (err) {
                 if (err) {
                     res.end('An error occurred');
@@ -123,6 +125,84 @@ var classes = {
                 });
             }
         } else res.send(req.doc.enrolled);
+    },
+    getProfile: function(req, res) {
+        res.render('class', {
+            user    : req.user,
+            course  : req.doc,
+            message : req.flash('info'),
+            error   : req.flash('error')
+        });
+    },
+    module: {
+        create: function(req, res) {
+            req.body.class = req.doc._id;
+            moduleModel.create(req.body, function(err, result) {
+                if (err) {
+                    res.end('An error has occurred');
+                    console.log(err);
+                    return err;
+                }
+                req.doc.modules.push(result._id);
+                req.doc.save(function (err) {
+                    if (err) {
+                        res.end(err);
+                        return true;
+                    }
+                    res.send('Module ' + result._id + ' created successfully');
+                });
+            });
+        },
+        update: function(req, res) {
+            req.body.class = req.doc._id;
+            moduleModel.where({ _id: req.params.module }).findOne(function(err, doc) {
+                if (err) {
+                    res.end(err);
+                    return true;
+                }
+                
+                if ( req.body.name ) doc.name = req.body.name;
+                if ( req.body.desc ) doc.desc = req.body.desc;
+                doc.save(function(err) {
+                    if (err) {
+                        res.end(err);
+                        return true;
+                    }
+                    res.send('Module ' + doc._id + ' updated succesfully');
+                });
+            });
+        },
+        remove: function(req, res) {
+            req.body.class = req.doc._id;
+            moduleModel.remove({_id: req.params.module}, function(err) {
+                if (err) {
+                    res.end(err);
+                    return true;
+                }
+                req.doc.modules.splice(req.doc.modules.indexOf(req.params.module), 1);
+                req.doc.save(function (err) {
+                    if (err) {
+                        res.end(err);
+                        return true;
+                    }
+                    res.send('Module ' + req.params.module + ' removed successfully');
+                });
+            });
+        },
+        info: function(req, res) {
+            moduleModel.findById(req.params.module, function(err, selected) {
+                if (err) {
+                    res.end(err);
+                    return true;
+                }
+                
+                res.send({
+                    name : selected.name,
+                    desc : selected.desc,
+                    id   : selected._id
+                });
+            });
+        }
     }
 }
 
@@ -144,8 +224,15 @@ router.post('/create', pass.atleastManager, classes.create );
 router.post('/update', pass.atleastTeacher, classes.update );
 
 router.post('/:id/enroll', pass.atleastTeacher, findClass, classes.enroll );
-router.post('/:id/drop', pass.atleastTeacher, findClass, classes.drop );
+router.post('/:id/drop'  , pass.atleastTeacher, findClass, classes.drop   );
+
+router.post('/:id/module/create'        , pass.atleastTeacher, findClass, classes.module.create );
+router.post('/:id/module/:module/update', pass.atleastTeacher, findClass, classes.module.update );
+
+router.get('/:id/module/:module/remove', pass.atleastTeacher, findClass, classes.module.remove );
+router.get('/:id/module/:module/info'  , pass.atleastStudent, findClass, classes.module.info   );
 
 router.get('/:id/students', pass.atleastTeacher, findClass, classes.getStudents );
+router.get('/:id/'        , pass.atleastStudent, findClass, classes.getProfile  );
 
 module.exports = router;

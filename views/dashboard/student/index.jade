@@ -1,9 +1,6 @@
-extends /page
-
-block content
-    script(src='/js/home.js')
-    div(ng-controller='home' ng-init='getEnrolled()')
-        include /sidebar
+block dashboard
+    script(src='/js/dashboard/student.js')
+    div(ng-controller='dashboardController' ng-init='getEnrolled()')
         .col-md-9.col-xs-12
             h3 Enrolled classes:
             .panel.panel-primary(ng-repeat='class in enrolled')

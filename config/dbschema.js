@@ -31,7 +31,8 @@ var classSchema = new Schema({
     grade    : { type: Number, required: false, unique: false },
     school   : { type: String, required: false, unique: false },
     teacher  : { type: String, required: false, unique: false },
-    enrolled : { type: Array , required: false, unique: false }
+    enrolled : { type: Array , required: false, unique: false },
+    modules  : { type: Array , required: false, unique: false }
 });
 var schoolSchema = new Schema({
     name     : { type: String, required: true , unique: true  },
@@ -42,6 +43,11 @@ var schoolSchema = new Schema({
     city     : { type: String, required: false, unique: false },
     state    : { type: String, required: false, unique: false },
     classes  : { type: Array , required: false, unique: false }
+});
+var moduleSchema = new Schema({
+    name  : { type: String, required: true , unique: true  },
+    desc  : { type: String, required: false, unique: false },
+    class : { type: String, required: true , unique: false }
 });
 
 userSchema.pre('save', function(next) {
@@ -67,5 +73,6 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
 exports.model = {
     user   : mongoose.model('User'  , userSchema   ),
     class  : mongoose.model('Class' , classSchema  ),
-    school : mongoose.model('School', schoolSchema )
+    school : mongoose.model('School', schoolSchema ),
+    module : mongoose.model('Module', moduleSchema )
 }

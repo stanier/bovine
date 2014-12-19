@@ -18,6 +18,18 @@ function clone(o) {
     for (var a in o) { if (o.hasOwnProperty(a)) c[a] = o[a] }
     return c;
 }
+
+function objectHasValue(object, val) {
+    for(var prop in object) {
+        if(object.hasOwnProperty(prop) && object[prop] === val) {
+            return true;   
+        }
+    }
+    return false;
+};
+
 function showSuccess(data) { toastr.success(data) }
 function showError(data) { toastr.error(data) }
 function showInfo(data) { toastr.info(data) }
+
+$('.widthToHeight').css({'height':$('.widthToHeight').width()+'px'});

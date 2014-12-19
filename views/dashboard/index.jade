@@ -1,6 +1,7 @@
 extends /page
 
 block content
+    include /sidebar
     case user.role
         when 4
             include admin/index.jade
@@ -14,5 +15,4 @@ block content
             h3 Access denied
             p We're sorry, but we could not render your page.  Perhaps you are
             | not logged in or were not entered into the system correctly?
-    block script
     block dashboard

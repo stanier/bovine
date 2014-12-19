@@ -1,0 +1,10 @@
+#class.tab-pane(role='tabpanel' data-toggle='tab')
+    .panel.panel-primary
+        ul.panel-heading.nav.nav-tabs
+                li: a(href='#edit' data-toggle='tab') Class
+                li: a(href='#students' data-toggle='tab') Students
+                li: a(href='#grades' data-toggle='tab') Grades
+        .panel-body: .tab-content
+            include edit
+            include students
+            include grades

@@ -1,0 +1,12 @@
+case user.role
+    when 4
+        include admin/index
+    when 3
+        include manager/index
+    when 2
+        include teacher/index
+    when 1
+        include student/index
+    default
+        p We're sorry, but we could not render your page.  Perhaps you are
+        | not logged in or were not entered into the system correctly?
