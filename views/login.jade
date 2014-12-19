@@ -3,7 +3,9 @@ extends page
 block content
     .col-sm-4.col-sm-offset-4
         if !(message == '')
-            .alert.alert-danger #{message}
+            .alert.alert-info #{info}
+        if !(error == '')
+            .alert.alert-danger #{error}
         .well
             form(action='/login', method='post')
                 div

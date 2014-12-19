@@ -1,0 +1,17 @@
+extends /page
+
+block content
+    .col-md-3.pull-right: .panel.panel-default
+        .panel-heading
+            | Recent Activity
+        .panel-body
+            ul.nav.nav-pills.nav-stacked
+                li: a(href='#') Forum
+                    span.badge.pull-right 5
+                li: a(href='#') Assignments
+                    span.badge.pull-right 8
+    .col-md-9
+        .tab-pane.active.col-md-12
+            .nav.navbar
+                h3.pull-left #{ course.name }
+        .panel.panel-default: .panel-body(ng-repeat='module in course')

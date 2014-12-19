@@ -13,18 +13,14 @@
                 td #
                 td Username
                 td Email
-                td First Name
-                td Middle Name
-                td Last Name
+                td Full Name
                 td Id
                 td
             tbody: tr(ng-repeat='record in data')
                 td {{ $index + 1 }}
                 td {{ record.username }}
                 td {{ record.email }}
-                td {{ record.firstName }}
-                td {{ record.middleName }}
-                td {{ record.lastName }}
+                td {{ record.firstName }} {{ record.middleName }} {{ record.lastName }}
                 td {{ record.id }}
                 td.btn-group
                     button.btn.btn-primary(ng-click='shareTarget(record.id)' data-toggle='modal' data-target='#userEdit'): .fa.fa-gear

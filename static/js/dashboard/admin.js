@@ -198,11 +198,11 @@ bovine.controller('editSchool', ['$scope', '$http', 'sharedTarget', function($sc
     });
     $scope.write = function() {
         var post = {};
-        if ($scope.target.name     != $scope.oldTarget.name    ) post.name     = $scope.target.name     ;
-        if ($scope.target.category != $scope.oldTarget.category) post.category = $scope.target.category ;
-        if ($scope.target.website  != $scope.oldTarget.website ) post.website  = $scope.target.website  ;
-        if ($scope.target.grade    != $scope.oldTarget.grade   ) post.grade    = $scope.target.grade    ;
-        if ($scope.target.teacher  != $scope.oldTarget.teacher ) post.teacher  = $scope.target.teacher  ;
+        if ($scope.target.name     != $scope.oldTarget.name     ) post.name     = $scope.target.name     ;
+        if ($scope.target.category != $scope.oldTarget.category ) post.category = $scope.target.category ;
+        if ($scope.target.website  != $scope.oldTarget.website  ) post.website  = $scope.target.website  ;
+        if ($scope.target.grade    != $scope.oldTarget.grade    ) post.grade    = $scope.target.grade    ;
+        if ($scope.target.teacher  != $scope.oldTarget.teacher  ) post.teacher  = $scope.target.teacher  ;
         if (post.name || post.category || post.website || post.grade || post.teacher) {
             post._id = $scope.oldTarget.id;
             $http.post('/class/update', post)

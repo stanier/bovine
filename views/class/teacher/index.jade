@@ -1,0 +1,22 @@
+extends /page
+
+block content
+    script(src='/js/class/teacher.js')
+    .col-md-3.pull-right: .panel.panel-default
+        .panel-body
+            ul.nav.nav-pills.nav-stacked
+                li: a(href='#') Forum
+                    span.badge.pull-right 5
+                li: a(href='#') Assignments
+                    span.badge.pull-right 8
+    .col-md-9
+        .col-md-12
+            .spacer-10px
+            h3.pull-left #{ course.name }
+            .btn-group.pull-right
+                button.btn.btn-primary(href='#modules' data-toggle='tab'): .fa.fa-list-alt
+                button.btn.btn-primary(data-toggle='modal' data-target='#addModule'): .fa.fa-plus
+                button.btn.btn-primary(href='#class' data-toggle='tab'): .fa.fa-gear
+        .col-md-12.tab-content(ng-controller='classController' ng-init='init("#{course.id}")')
+            include modules
+            include class

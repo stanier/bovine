@@ -1,12 +1,28 @@
 .col-md-3.hidden-sm.hidden-xs
     .panel.panel-default
         ul.nav.nav-pills.nav-stacked
-            li
-                a(href='#') Home
-                    span.badge.pull-right 2
-            li
-                a(href='#') Mail
-                    span.badge.pull-right 7
-            li
-                a(href='#') Assignments
-                    span.badge.pull-right 3
+            li(style='overflow:auto')
+                .spacer-20px
+                .col-md-10.col-md-offset-1
+                    .ribbon-shadow
+                    img.col-md-12.img-circle.widthToHeight(
+                        src='https://avatars1.githubusercontent.com/u/8770519?v=3&s=460'
+                        style='overflow:hidden;padding:0px')
+                    .ribbon-container: .ribbon: h4 #{ user.firstName } #{ user.lastName }
+            li: a(href='#') Home
+                span.badge.pull-right 2
+            li: a(href='#') Mail
+                span.badge.pull-right 7
+            case user.role
+                when 4
+                    li: a(href='#') Tickets
+                        span.badge.pull-right 3
+                when 3
+                    li: a(href='#') Reports
+                        span.badge.pull-right 3
+                when 2
+                    li: a(href='#') Submissions
+                        span.badge.pull-right 3
+                when 1
+                    li: a(href='#') Assignments
+                        span.badge.pull-right 3
