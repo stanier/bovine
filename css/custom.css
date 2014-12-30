@@ -1,0 +1,82 @@
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+body {
+    margin-top: 60px;
+}
+.jumbotron {
+    display: table;
+    width: 100%;
+    min-height: 50vh;
+    color: rgba(255,255,255,.84);
+    background-color: #4285f4 !important;
+    padding-top: 50px !important;
+    padding-bottom: 50px !important;
+}
+.card {
+    margin-bottom: 50px;
+}
+.card .img-container img {
+    width: 100%;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+.card .col-sm-1,
+.card .col-sm-2,
+.card .col-sm-3,
+.card .col-sm-4,
+.card .col-sm-5,
+.card .col-sm-6,
+.card .col-sm-7,
+.card .col-sm-8,
+.card .col-sm-9,
+.card .col-sm-10,
+.card .col-sm-11,
+.card .col-sm-12 {
+    padding: 0;
+    height: inherit;
+}
+.text-container {
+    display: table-cell;
+    text-align: center;
+}
+.jumbotron h1, .jumbotron h3 {
+    z-index: 1031 !important;
+}
+.jumbotron h1 {
+    font-size: 48px;
+}
+.navbar {
+    background-color: #4285f4 !important;
+}
+.bg-light-blue {
+    background-color: #92A5f5 !important;
+}
+.bg-green {
+    background-color: #4CAF50 !important;
+}
+.pull-right {
+    float: right;
+}
+.btn-info {
+    color: #4285f4 !important;
+    background-color: white !important;
+}
+body .container {
+    text-align: center;
+}
+.footer {
+    background-color: #4285f4 !important;
+    color: rgba(255,255,255,.84);
+    text-align: center;
+    padding: 10px;
+}
+.footer a,
+.footer a:hover {
+    color: rgba(255,255,255,.84) !important;
+    text-decoration: none;
+}
