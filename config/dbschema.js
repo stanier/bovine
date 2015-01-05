@@ -45,11 +45,17 @@ var schoolSchema = new Schema({
     classes  : { type: Array , required: false, unique: false }
 });
 var moduleSchema = new Schema({
-    name  : { type: String, required: true , unique: true  },
-    desc  : { type: String, required: false, unique: false },
-    class : { type: String, required: true , unique: false }
+    name       : { type: String, required: true , unique: true  },
+    desc       : { type: String, required: false, unique: false },
+    class      : { type: String, required: true , unique: false },
+    activities : { type: Array , required: false, unique: false }
 });
-
+var assignmentSchema = new Schema({
+    name    : { type: String, required: true , unique: false },
+    desc    : { type: String, required: false, unique: false },
+    type    : { type: String, required: true , unique: false },
+    content : { type: String, required: false, unique: false }
+});
 userSchema.pre('save', function(next) {
 	var user = this;
 	if (!user.isModified('password')) return next();
@@ -71,8 +77,9 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
 }
 
 exports.model = {
-    user   : mongoose.model('User'  , userSchema   ),
-    class  : mongoose.model('Class' , classSchema  ),
-    school : mongoose.model('School', schoolSchema ),
-    module : mongoose.model('Module', moduleSchema )
+    user       : mongoose.model('User'      , userSchema       ),
+    class      : mongoose.model('Class'     , classSchema      ),
+    school     : mongoose.model('School'    , schoolSchema     ),
+    module     : mongoose.model('Module'    , moduleSchema     ),
+    assignment : mongoose.model('Assignment', assignmentSchema )
 }
