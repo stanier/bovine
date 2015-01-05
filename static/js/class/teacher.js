@@ -16,11 +16,23 @@ bovine.controller('classController', ['$scope', '$http', '$sce', 'sharedTarget',
             $scope.modules = [];
             for (var i = 0; i < $scope.oldTarget.modules.length; i++) {
                 $http.get('/class/' + $scope.classId + '/module/' + $scope.oldTarget.modules[i] + '/info')
-                .success(function(data, status) { $scope.modules.push(data) })
+                .success(function(data, status) {
+                    $scope.modules.push(data);
+                    
+                    for (var j = 0; j < $scope.modules[i-1].activities.length; j++) {
+                        $scope.modules[i-1].detailedActivities = [];
+                        
+                        $http.get('/class/' + $scope.classId + '/module/' + $scope.modules[i-1].id + '/activity/'
+                                  + $scope.modules[i-1].activities[j] + '/info')
+                        .success(function(data, status) { $scope.modules[i-1].detailedActivities.push(data) })
+                        .error(function(data, status) { showError(data) });
+                    }
+                })
                 .error(function(data, status) { showError(data) });
             }
         })
         .error(function(data, status) { showError(data) });
+        
     };
     $scope.write = function() {
         var post = {};
@@ -111,5 +123,42 @@ bovine.controller('classController', ['$scope', '$http', '$sce', 'sharedTarget',
     $scope.parseDesc = function(unit) {
         if (unit.desc) unit.parsedDesc = $sce.trustAsHtml(marked(unit.desc));
         else unit.parsedDesc = $sce.trustAsHtml('<i>dust</i>');
+    }
+    $scope.quiz = {
+        questions : []
+    }
+    
+    $scope.addQuestion = function() {
+        $scope.quiz.questions[$scope.quiz.questions.length] = {
+            id: $scope.quiz.questions.length + 1, 
+            options: []
+        };
+    }
+    $scope.questionClass = {
+        choice : {
+            add : function(question) { question.options[question.options.length] = { id: question.options.length + 1 } }
+        },
+        matching : {
+            add : function(question) { question.options[question.options.length] = { id: question.options.length + 1 } }
+        }
+    }
+    $scope.addActivity = function(parent) {
+        $('#addActivity').modal('show');
+        $scope.quiz.parent = parent;
+    }
+    $scope.createQuiz = function(quiz) {
+        var post = { type: 'quiz' };
+        if ( quiz.name      ) post.name      = quiz.name      ;
+        if ( quiz.desc      ) post.desc      = quiz.desc      ;
+        if ( quiz.questions ) post.questions = quiz.questions ;
+        
+        if ( post.name ) {
+            $http.post('/class/' + $scope.classId + '/module/' + quiz.parent + '/activity/create', post)
+            .success(function(data, status) {
+                showSuccess(data);
+                $scope.reInit();
+            })
+            .error(function(data, status) { showError(data) });
+        }
     }
 }]);

@@ -19,14 +19,18 @@
                     aria-controls='#{{ module.id }}'
                 ) {{ module.name }}
             .pull-right
-                button.btn.btn-primary(ng-click='editModule(module.id)  '): .fa.fa-gear
-                button.btn.btn-primary(ng-click='removeModule(module.id)'): .fa.fa-close
+                button.btn.btn-primary(ng-click='addActivity(module.id)'): .fa.fa-plus
+                button.btn.btn-primary(ng-click='editModule(module.id)   '): .fa.fa-gear
+                button.btn.btn-primary(ng-click='removeModule(module.id) '): .fa.fa-close
         .panel-collapse.collapse(id='{{ module.id }}' role='tabpanel' ng-class='{in: $first}')
             .panel-body(ng-init='parseDesc(module)' ng-bind-html='module.parsedDesc')
+            .panel-footer(ng-hide='activities')
+                h4 activities
+                a(ng-repeat='activity in module.detailedActivities' href='./{{ module.id }}/activity/{{ activity.id }}/') {{ activity.name }}
 #editModule.modal.fade: .modal-dialog: .modal-content(style='overflow:auto')
     .modal-body
         form.form-horizontal(novalidate)
-            input#editModule_chrome_autofill_fix_user(type='text' style='display: none')
+            input#editModule_chrome_autofill_fix_user(type='text'     style='display: none')
             input#editModule_chrome_autofill_fix_pass(type='password' style='display: none')
             .form-group
                 .col-sm-2: label.control-label(for='editModule_name') Name
@@ -40,7 +44,7 @@
 #addModule.modal.fade: .modal-dialog: .modal-content(style='overflow:auto')
     .modal-body
         form.form-horizontal(novalidate)
-            input#addModule_chrome_autofill_fix_user(type='text' style='display: none')
+            input#addModule_chrome_autofill_fix_user(type='text'     style='display: none')
             input#addModule_chrome_autofill_fix_pass(type='password' style='display: none')
             .form-group
                 .col-sm-2: label.control-label(for='addModule_name') Name
@@ -51,3 +55,76 @@
                 
             .modal-footer
                 button.btn.btn-primary(type='submit' ng-click='createModule(newModuleName, newModuleDesc)') Create Module
+#addActivity.modal.fade: .modal-dialog: .modal-content(style='overflow:auto')
+    .modal-body
+        h1 Create activity
+        ul.nav.nav-pills
+            li.active: a(href='#addQuiz'       data-toggle='tab') Quiz
+            //li:        a(href='#addSurvey'     data-toggle='tab') Survey
+            //li:        a(href='#addEssay'      data-toggle='tab') Essay
+            //li:        a(href='#addUpload'     data-toggle='tab') Upload
+            //li:        a(href='#addForum'      data-toggle='tab') Forum
+            //li:        a(href='#addExternal'   data-toggle='tab') External Resource
+        .tab-content
+            #addQuiz.tab-pane.active: form.form-horizontal(novalidate)
+                input#addQuiz_chrome_autofill_fix_user(type='text'     style='display:none')
+                input#addQuiz_chrome_autofill_fix_pass(type='password' style='display:none')
+                input(type='text' style='width:100%' placeholder='Name' ng-model='quiz.name')
+                .col-sm-12(style='height:10px')
+                textarea(rows='3' style='width:100%' placeholder='Description' ng-model='quiz.desc')
+                .col-sm-12: .pull-right
+                    button.btn.btn-primary(ng-click='addQuestion()'): .fa.fa-plus
+                .col-sm-12: .panel(ng-repeat='question in quiz.questions' style='overflow: auto')
+                    .panel-heading Question {{question.id}}
+                        select.pull-right(ng-model='question.type')
+                            option(value='choice'  ) Multiple choice
+                            option(value='matching') Matching
+                            option(value='checkbox') Checkbox
+                            option(value='response') Short response
+                    .panel-body(ng-if='question.type == "choice"')
+                        input(type='text' style='width:100%' ng-model='question.prompt' placeholder='eg. What is 2 + 2?')
+                        .pull-right: button.btn.btn-primary(ng-click='questionClass.choice.add(question)'): .fa.fa-plus
+                        table.table.table-condensed.table-striped
+                            tbody
+                                tr(ng-repeat='option in question.options')
+                                    td.col-sm-1: input(type='radio' style='width:100%' ng-model='option.isCorrect' name='{{ question.id }}')
+                                    td.col-sm-11: input(type='text' style='width:100%' ng-model='option.text' placeholder='eg. 4')
+                    .panel-body(ng-if='question.type == "matching"')
+                        .pull-right: button.btn.btn-primary(ng-click='questionClass.matching.add(question)'): .fa.fa-plus
+                        table.table.table-condensed.table-striped
+                            tbody
+                                tr(ng-repeat='option in question.options')
+                                    td.col-sm-4: input(type='text' style='width:100%' ng-model='option.isCorrect' placeholder='eg. blue')
+                                    td.col-sm-8: input(type='text' style='width:100%' ng-model='option.text' placeholder='eg. The sky is ___')
+                    .panel-body(ng-if='question.type == "checkbox"')
+                        input(type='text' style='width:100%' ng-model='question.prompt' placeholder='eg. Check all that apply')
+                        .pull-right: button.btn.btn-primary(ng-click='questionClass.matching.add(question)'): .fa.fa-plus
+                        table.table.table-condensed.table-striped
+                            tbody
+                                tr(ng-repeat='option in question.options')
+                                    td.col-sm-1: input(type='checkbox' ng-model='option.isCorrect')
+                                    td.col-sm-11: input(type='text' style='width:100%' ng-model='option.text' placeholder='eg. user is a monkey')
+                    .panel-body(ng-if='question.type == "response"')
+                        input(type='text' style='width:100%' ng-model='question.prompt' placeholder="eg. Write a couple sentences on the history of Adam Sandler's bad jokes")
+                        p Short responses can either be manually graded or automatically counted as correct
+                .pull-right: button.btn.btn-primary(ng-click='createQuiz(quiz)') Save
+            #addSurvey.tab-pane:     form.form-horizontal(novalidate)
+                input#addSurvey_chrome_autofill_fix_user(type='text'     style='display:none')
+                input#addSurvey_chrome_autofill_fix_pass(type='password' style='display:none')
+                h1 survey
+            #addEssay.tab-pane:      form.form-horizontal(novalidate)
+                input#addEssay_chrome_autofill_fix_user(type='text'     style='display:none')
+                input#addEssay_chrome_autofill_fix_pass(type='password' style='display:none')
+                h1 essay
+            #addUpload.tab-pane:     form.form-horizontal(novalidate)
+                input#addUpload_chrome_autofill_fix_user(type='text'     style='display:none')
+                input#addUpload_chrome_autofill_fix_pass(type='password' style='display:none')
+                h1 upload
+            #addForum.tab-pane:      form.form-horizontal(novalidate)
+                input#addForum_chrome_autofill_fix_user(type='text'     style='display:none')
+                input#addForum_chrome_autofill_fix_pass(type='password' style='display:none')
+                h1 forum
+            #addExternal.tab-pane:   form.form-horizontal(novalidate)
+                input#addExternal_chrome_autofill_fix_user(type='text'     style='display:none')
+                input#addExternal_chrome_autofill_fix_pass(type='password' style='display:none')
+                h1 external

@@ -2,12 +2,13 @@ var router = require('express').Router();
 var pass   = require('../config/pass');
 var url    = require('url');
 
-var userModel   = require('../config/dbschema').model.user   ;
-var classModel  = require('../config/dbschema').model.class  ;
-var moduleModel = require('../config/dbschema').model.module ;
+var userModel       = require('../config/dbschema').model.user              ;
+var classModel      = require('../config/dbschema').model.class             ;
+var moduleModel     = require('../config/dbschema').model.module            ;
+var assignmentModel = require('../config/dbschema').model.assignment        ;
 
 var classes = {
-    lookup: function(req, res) {
+    lookup : function(req, res) {
         var input = url.parse(req.url, true).query;
         var id       = input.id       ;
         var name     = input.name     ;
@@ -38,7 +39,7 @@ var classes = {
             });
         } else res.end();
     },
-    create: function(req, res) {
+    create : function(req, res) {
         classModel.create(req.body, function(err, result) {
             if (err) {
                 res.end('An error has occurred');
@@ -47,7 +48,7 @@ var classes = {
             res.send('Class ' + result._id + ' created successfully');
         });
     },
-    update: function(req, res) {
+    update : function(req, res) {
         classModel.findById(req.body._id, function(err, selected) {
             if ( req.body.name     ) selected.name     = req.body.name     ;
             if ( req.body.category ) selected.category = req.body.category ;
@@ -64,7 +65,7 @@ var classes = {
             });
         });
     },
-    remove: function(req, res) {
+    remove : function(req, res) {
         classModel.remove({_id: url.parse(req.url, true).query.target}, function(err) {
             if (err) {
                 res.end(err);
@@ -73,7 +74,7 @@ var classes = {
             res.end('Class ' + url.parse(req.url, true).query.target + ' removed successfully.');
         });
     },
-    enroll: function(req, res) {
+    enroll : function(req, res) {
         userModel.findById(req.body.student, function(err, selected) {
             if (err) {
                 res.end(err);
@@ -93,7 +94,7 @@ var classes = {
             });
         });
     },
-    drop: function(req, res) {
+    drop : function(req, res) {
         userModel.findById(req.body.student, function(err, selected) {
             if (err) {
                 res.end(err);
@@ -109,7 +110,7 @@ var classes = {
             });
         });
     },
-    getStudents: function(req, res) {
+    getStudents : function(req, res) {
         if (url.parse(req.url, true).query.detailed == 'true') {
             var response = [];
             if (req.doc.enrolled.length == 0) res.send(req.doc.enrolled);
@@ -126,16 +127,16 @@ var classes = {
             }
         } else res.send(req.doc.enrolled);
     },
-    getProfile: function(req, res) {
+    getProfile : function(req, res) {
         res.render('class', {
-            user    : req.user,
-            course  : req.doc,
-            message : req.flash('info'),
+            user    : req.user          ,
+            course  : req.doc           ,
+            message : req.flash('info') ,
             error   : req.flash('error')
         });
     },
     module: {
-        create: function(req, res) {
+        create : function(req, res) {
             req.body.class = req.doc._id;
             moduleModel.create(req.body, function(err, result) {
                 if (err) {
@@ -153,7 +154,7 @@ var classes = {
                 });
             });
         },
-        update: function(req, res) {
+        update : function(req, res) {
             req.body.class = req.doc._id;
             moduleModel.where({ _id: req.params.module }).findOne(function(err, doc) {
                 if (err) {
@@ -172,7 +173,7 @@ var classes = {
                 });
             });
         },
-        remove: function(req, res) {
+        remove : function(req, res) {
             req.body.class = req.doc._id;
             moduleModel.remove({_id: req.params.module}, function(err) {
                 if (err) {
@@ -189,7 +190,7 @@ var classes = {
                 });
             });
         },
-        info: function(req, res) {
+        info : function(req, res) {
             moduleModel.findById(req.params.module, function(err, selected) {
                 if (err) {
                     res.end(err);
@@ -197,17 +198,120 @@ var classes = {
                 }
                 
                 res.send({
-                    name : selected.name,
-                    desc : selected.desc,
-                    id   : selected._id
+                    id         : selected._id       ,
+                    name       : selected.name      ,
+                    desc       : selected.desc      ,
+                    activities : selected.activities
                 });
             });
+        },
+        activity : {
+            create : function(req, res) {
+                req.body.module = req.doc._id;
+                if ( req.body.type == 'quiz' ) {
+                    assignmentModel.create(req.body, function(err, result) {
+                        if (err) {
+                            res.end('An error has occurred');
+                            console.log(err);
+                            return err;
+                        }
+                        req.doc.activities.push(result._id);
+                        req.doc.save(function (err) {
+                            if (err) {
+                                res.end(err);
+                                return true;
+                            }
+                            res.send('Activity ' + result._id + ' created successfully');
+                        });
+                    });
+                }
+                if ( req.body.type == 'survey' ) {
+                    assignmentModel.create(req.body, function(err, result) {
+                        if (err) {
+                            res.end('An error has occurred');
+                            console.log(err);
+                            return err;
+                        }
+                    });
+                }
+                if ( req.body.type == 'essay' ) {
+                    assignmentModel.create(req.body, function(err, result) {
+                        if (err) {
+                            res.end('An error has occurred');
+                            console.log(err);
+                            return err;
+                        }
+                    });
+                }
+                if ( req.body.type == 'upload' ) {
+                    assignmentModel.create(req.body, function(err, result) {
+                        if (err) {
+                            res.end('An error has occurred');
+                            console.log(err);
+                            return err;
+                        }
+                    });
+                }
+                if ( req.body.type == 'forum' ) {
+                    assignmentModel.create(req.body, function(err, result) {
+                        if (err) {
+                            res.end('An error has occurred');
+                            console.log(err);
+                            return err;
+                        }
+                    });
+                }
+                if ( req.body.type == 'external' ) {
+                    assignmentModel.create(req.body, function(err, result) {
+                        if (err) {
+                            res.end('An error has occurred');
+                            console.log(err);
+                            return err;
+                        }
+                    });
+                }
+            },
+            update : function(req, res) {
+                
+            },
+            remove : function(req, res) {
+                
+            },
+            info : function(req, res) {
+                assignmentModel.findById(req.params.activity, function(err, selected) {
+                    if (err) {
+                        res.end(err);
+                        return true;
+                    }
+                
+                    res.send({
+                        id         : selected._id       ,
+                        name       : selected.name      ,
+                        desc       : selected.desc      ,
+                        type       : selected.type
+                    });
+                });
+            },
+            render : function(req, res) {
+                
+            }
         }
     }
 }
 
 function findClass(req, res, next) {
-    classModel.where({ _id: req.params.id }).findOne(function(err, doc) {
+    classModel.where({ _id: req.params.class }).findOne(function(err, doc) {
+        if (err) {
+            res.end('An error has occured');
+            return true;
+        }
+        req.doc = doc;
+        next();
+    });
+}
+
+function findModule(req, res, next) {
+    moduleModel.where({ _id: req.params.module }).findOne(function(err, doc) {
         if (err) {
             res.end('An error has occured');
             return true;
@@ -223,16 +327,23 @@ router.get('/remove', pass.atleastManager, classes.remove );
 router.post('/create', pass.atleastManager, classes.create );
 router.post('/update', pass.atleastTeacher, classes.update );
 
-router.post('/:id/enroll', pass.atleastTeacher, findClass, classes.enroll );
-router.post('/:id/drop'  , pass.atleastTeacher, findClass, classes.drop   );
+router.post('/:class/enroll', pass.atleastTeacher, findClass, classes.enroll );
+router.post('/:class/drop'  , pass.atleastTeacher, findClass, classes.drop   );
 
-router.post('/:id/module/create'        , pass.atleastTeacher, findClass, classes.module.create );
-router.post('/:id/module/:module/update', pass.atleastTeacher, findClass, classes.module.update );
+router.post('/:class/module/create'        , pass.atleastTeacher, findClass, classes.module.create );
+router.post('/:class/module/:module/update', pass.atleastTeacher, findClass, classes.module.update );
 
-router.get('/:id/module/:module/remove', pass.atleastTeacher, findClass, classes.module.remove );
-router.get('/:id/module/:module/info'  , pass.atleastStudent, findClass, classes.module.info   );
+router.get('/:class/module/:module/remove', pass.atleastTeacher, findClass, classes.module.remove );
+router.get('/:class/module/:module/info'  , pass.atleastStudent, findClass, classes.module.info   );
 
-router.get('/:id/students', pass.atleastTeacher, findClass, classes.getStudents );
-router.get('/:id/'        , pass.atleastStudent, findClass, classes.getProfile  );
+router.post('/:class/module/:module/activity/create'          , pass.atleastTeacher, findModule, classes.module.activity.create );
+router.post('/:class/module/:module/activity/:activity/update', pass.atleastTeacher, findModule, classes.module.activity.update );
+
+router.get('/:class/module/:module/activity/:activity/remove', pass.atleastTeacher, findModule, classes.module.activity.remove );
+router.get('/:class/module/:module/activity/:activity/info'  , pass.atleastTeacher, findModule, classes.module.activity.info   );
+router.get('/:class/module/:module/activity/:activity/'      , pass.atleastTeacher, findModule, classes.module.activity.render );
+
+router.get('/:class/students', pass.atleastTeacher, findClass, classes.getStudents );
+router.get('/:class/'        , pass.atleastStudent, findClass, classes.getProfile  );
 
 module.exports = router;
