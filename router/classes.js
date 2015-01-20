@@ -2,14 +2,17 @@ var router = require('express').Router();
 var pass   = require('../config/pass');
 var url    = require('url');
 
-var userModel       = require('../config/dbschema').model.user              ;
-var classModel      = require('../config/dbschema').model.class             ;
-var moduleModel     = require('../config/dbschema').model.module            ;
-var assignmentModel = require('../config/dbschema').model.assignment        ;
+// Make sure we have our Models ready for working with the database
+var userModel       = require('../config/dbschema').model.user       ;
+var classModel      = require('../config/dbschema').model.class      ;
+var moduleModel     = require('../config/dbschema').model.module     ;
+var assignmentModel = require('../config/dbschema').model.assignment ;
+var submissionModel = require('../config/dbschema').model.submission ;
 
 var classes = {
     lookup : function(req, res) {
         var input = url.parse(req.url, true).query;
+        
         var id       = input.id       ;
         var name     = input.name     ;
         var category = input.category ;
@@ -114,7 +117,7 @@ var classes = {
         if (url.parse(req.url, true).query.detailed == 'true') {
             var response = [];
             if (req.doc.enrolled.length == 0) res.send(req.doc.enrolled);
-            for (var i = 0; i < req.doc.enrolled.length; i++) {
+            for (var i in req.doc.enrolled.length) {
                 userModel.where({ _id: req.doc.enrolled[i] }).findOne(function(err, doc) {
                     if (err) {
                         res.end('An error has occured');
@@ -285,15 +288,86 @@ var classes = {
                     }
                 
                     res.send({
-                        id         : selected._id       ,
-                        name       : selected.name      ,
-                        desc       : selected.desc      ,
-                        type       : selected.type
+                        id   : selected._id  ,
+                        name : selected.name ,
+                        desc : selected.desc ,
+                        type : selected.type
                     });
                 });
             },
             render : function(req, res) {
+                assignmentModel.findById(req.params.activity, function(err, selected) {
+                    if (err) {
+                        res.end(err);
+                        return true;
+                    }
                 
+                    res.render('activity', {
+                        user     : req.user          ,
+                        activity : selected          ,
+                        module   : req.params.module ,
+                        course   : req.params.class  ,
+                        message  : req.flash('info') ,
+                        error    : req.flash('error')
+                    });
+                });
+            },
+            quiz : {
+                attempt : function(req, res) {
+                    // TODO:  Dedicate a database sessions table for logging and tracking quiz sessions
+                    
+                    assignmentModel.findOne({_id: req.params.activity, type: 'quiz'}, function(err, selected) {
+                        if (err) {
+                            res.end(err);
+                            return true;
+                        }
+                        
+                        var visibleQuestions = [];
+                        
+                        for (var i in selected.content.questions.length) {
+                            visibleQuestions.push({
+                                prompt  : selected.content.questions[i].prompt  ,
+                                type    : selected.content.questions[i].type    ,
+                                options : selected.content.questions[i].options ,
+                                id      : selected.content.questions[i].id      ,
+                            });
+                            
+                            if (i = selected.content.questions.length) {
+                                res.send(visibleQuestions);
+                            }
+                        }
+                    });
+                },
+                submit : function(req, res) {
+                    assignmentModel.findOne({_id: req.body.quiz, type: 'quiz'}, function(err, selected) {
+                        if (err) {
+                            res.end(err);
+                            return true;
+                        }
+                        
+                        var correct = [];
+                        
+                        for (var i in selected.content.questions.length) {
+                            console.log(selected.content.questions[i]);
+                            console.log(req.body.questions[i]);
+                            
+                            correct[i] = (req.body.questions[i].selected == selected.content.questions[i].correct) ? true : false;
+                        }
+                        
+                        submissionModel.create({
+                            student    : req.user._id      ,
+                            assignment : req.body.quiz     ,
+                            correct    : correct           ,
+                            answers    : req.body.questions,
+                        }, function(err, result) {
+                            if (err) {
+                                res.send(err);
+                                return true;
+                            }
+                            res.send('Quiz submitted successfully');
+                        })
+                    });
+                }
             }
         }
     }
@@ -340,8 +414,13 @@ router.post('/:class/module/:module/activity/create'          , pass.atleastTeac
 router.post('/:class/module/:module/activity/:activity/update', pass.atleastTeacher, findModule, classes.module.activity.update );
 
 router.get('/:class/module/:module/activity/:activity/remove', pass.atleastTeacher, findModule, classes.module.activity.remove );
-router.get('/:class/module/:module/activity/:activity/info'  , pass.atleastTeacher, findModule, classes.module.activity.info   );
-router.get('/:class/module/:module/activity/:activity/'      , pass.atleastTeacher, findModule, classes.module.activity.render );
+router.get('/:class/module/:module/activity/:activity/info'  , pass.atleastStudent, findModule, classes.module.activity.info   );
+
+router.get('/:class/module/:module/activity/:activity/quiz/attempt', pass.atleastStudent, findModule, classes.module.activity.quiz.attempt );
+
+router.post('/:class/module/:module/activity/:activity/quiz/submit' , pass.atleastStudent, findModule, classes.module.activity.quiz.submit );
+
+router.get('/:class/module/:module/activity/:activity/'      , pass.atleastStudent, findModule, classes.module.activity.render );
 
 router.get('/:class/students', pass.atleastTeacher, findClass, classes.getStudents );
 router.get('/:class/'        , pass.atleastStudent, findClass, classes.getProfile  );

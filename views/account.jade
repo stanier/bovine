@@ -1,15 +1,35 @@
 extends page
 
 block content
-    h1 Account
-        h3 Username: 
+    script(src='/js/accountController.js')
+    .panel(ng-controller='accountController'): .panel-body
+        h1 Account
+        h4 Username: 
             code #{user.username}
-            p #{user}
-        h3 Email:
+        h4 Email:
             code #{user.email}
-        h3 Enrolled School:
-            code #{user.school}  TODO:  Work on school variable
-    
-    h1 Settings
-        h3 Preferences
-        h3 Public settings
+        h4 Enrolled School:
+            //code #{user.school}
+            code TODO:  Work on school variable
+        h4 Enrolled Courses:
+        table.table.table-default.table-striped
+            thead: tr
+                th: strong Course ID
+                th: strong Name
+                th: strong Instructor
+            tbody(ng-init='getEnrolled()')
+                tr(ng-repeat='course in enrolled')
+                    td {{ course._id }}
+                    td {{ course.name }}
+                    td {{ course.teacher.name }}
+        
+        ul.nav.nav-tabs
+            li.active: a(href='#' data-toggle='tab') Account
+            li: a(href='#' data-toggle='tab') Preferences
+            li: a(href='#' data-toggle='tab') Profile
+        .panel
+            .panel-head
+            
+            .panel-body
+        
+        

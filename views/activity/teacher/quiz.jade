@@ -1,0 +1,17 @@
+div(ng-controller='quizController')
+    .col-md-12
+        .spacer-10px
+        h3.pull-left #{ course.name }
+        .btn-group.pull-right
+            button.btn.btn-primary(href='#modules' data-toggle='tab'): .fa.fa-list-alt
+            button.btn.btn-primary(data-toggle='modal' data-target='#addModule'): .fa.fa-plus
+            button.btn.btn-primary(href='#class' data-toggle='tab'): .fa.fa-gear
+    table
+        thead: tr
+            td: strong Student ID
+            td: strong Grade
+            td: strong # of answered
+            td: strong # of correct
+            td: strong Percentage
+        tbody
+            td TODO:  Work on table for grades

@@ -3,7 +3,7 @@ extends /page
 block content
     script(src='/js/home.js')
     div(ng-controller='home' ng-init='getEnrolled()')
-        include sidebar
+        include /includes/sidebar
         .col-md-9.col-xs-12
             h3 Enrolled classes:
             .panel.panel-primary(ng-repeat='class in enrolled')

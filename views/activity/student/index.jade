@@ -1,0 +1,19 @@
+extends /page
+
+block content
+    .panel: .panel-body
+        a.btn(href='/class/#{course}') Return to course
+        h1 #{ activity.name }
+        h4 #{ activity.desc }
+        if activity.type == 'quiz'
+            include quiz
+        else if activity.type == 'survey'
+            include survey
+        else if activity.type == 'essay'
+            include essay
+        else if activity.type == 'upload'
+            include upload
+        else if activity.type == 'forum'
+            include forum
+        else if activity.type == 'external'
+            include external

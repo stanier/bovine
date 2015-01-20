@@ -1,12 +1,14 @@
 bovine.controller('findUser', ['$scope', '$http', 'sharedTarget', function($scope, $http, sharedTarget) {
     $scope.lookup = function(username, firstName, middleName, lastName, email, role) {
         var queryString = '/user/lookup';
+        
         if (username   ) queryString = queryString.concat('?username='   + username   );
         if (firstName  ) queryString = queryString.concat('?firstName='  + firstName  );
         if (middleName ) queryString = queryString.concat('?middleName=' + middleName );
         if (lastName   ) queryString = queryString.concat('?lastName='   + lastName   );
         if (email      ) queryString = queryString.concat('?email='      + email      );
         if (role       ) queryString = queryString.concat('?role='       + role       );
+        
         if (username || firstName || middleName || lastName || email || role) {
             $http.get(queryString)
             .success(function(data, status){ $scope.data = data })
@@ -105,6 +107,7 @@ bovine.controller('addClass', ['$scope', '$http', function($scope, $http) {
     $scope.write = function(name, category, website, grade, teacher, desc){
         var queryString = '/class/create';
         var postData = {};
+        
         if (name     ) postData.name     = name     ;
         if (category ) postData.category = category ;
         if (website  ) postData.website  = website  ;
@@ -132,12 +135,14 @@ bovine.controller('editClass', ['$scope', '$http', 'sharedTarget', function($sco
     });
     $scope.write = function() {
         var post = {};
+        
         if ($scope.target.name     != $scope.oldTarget.name     ) post.name     = $scope.target.name     ;
         if ($scope.target.category != $scope.oldTarget.category ) post.category = $scope.target.category ;
         if ($scope.target.website  != $scope.oldTarget.website  ) post.website  = $scope.target.website  ;
         if ($scope.target.grade    != $scope.oldTarget.grade    ) post.grade    = $scope.target.grade    ;
         if ($scope.target.teacher  != $scope.oldTarget.teacher  ) post.teacher  = $scope.target.teacher  ;
         if ($scope.target.desc     != $scope.oldTarget.desc     ) post.desc     = $scope.target.desc     ;
+        
         if (post.name || post.category || post.website || post.grade || post.teacher || post.desc) {
             post._id = $scope.oldTarget.id;
             $http.post('/class/update', post)
@@ -149,6 +154,7 @@ bovine.controller('editClass', ['$scope', '$http', 'sharedTarget', function($sco
 bovine.controller('findSchool', ['$scope', '$http', 'sharedTarget', function($scope, $http, sharedTarget) {
     $scope.lookup = function(name, type) {
         var queryString = '/school/lookup';
+        
         if (name) queryString = queryString.concat('?name=' + name);
         if (type) queryString = queryString.concat('?type=' + type);
         
@@ -170,6 +176,7 @@ bovine.controller('addSchool', ['$scope', '$http', function($scope, $http) {
     $scope.write = function(name, type, website, zipcode, district, city, state){
         var queryString = '/school/create';
         var postData = {};
+        
         if (name     ) postData.name     = name     ;
         if (type     ) postData.type     = type     ;
         if (website  ) postData.website  = website  ;
@@ -198,11 +205,13 @@ bovine.controller('editSchool', ['$scope', '$http', 'sharedTarget', function($sc
     });
     $scope.write = function() {
         var post = {};
+        
         if ($scope.target.name     != $scope.oldTarget.name     ) post.name     = $scope.target.name     ;
         if ($scope.target.category != $scope.oldTarget.category ) post.category = $scope.target.category ;
         if ($scope.target.website  != $scope.oldTarget.website  ) post.website  = $scope.target.website  ;
         if ($scope.target.grade    != $scope.oldTarget.grade    ) post.grade    = $scope.target.grade    ;
         if ($scope.target.teacher  != $scope.oldTarget.teacher  ) post.teacher  = $scope.target.teacher  ;
+        
         if (post.name || post.category || post.website || post.grade || post.teacher) {
             post._id = $scope.oldTarget.id;
             $http.post('/class/update', post)

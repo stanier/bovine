@@ -51,13 +51,25 @@ var moduleSchema = new Schema({
     activities : { type: Array , required: false, unique: false }
 });
 var assignmentSchema = new Schema({
-    name    : { type: String, required: true , unique: false },
-    desc    : { type: String, required: false, unique: false },
-    type    : { type: String, required: true , unique: false },
-    content : { type: String, required: false, unique: false }
+    name       : { type: String, required: true , unique: false },
+    desc       : { type: String, required: false, unique: false },
+    type       : { type: String, required: true , unique: false },
+    content    : { type: Object, required: false, unique: false },
+    timeMax    : { type: Number, required: false, unique: false },
+    attemptMax : { type: Number, required: false, unique: false },
+    cutoff     : { type: Date  , required: false, unique: false }
 });
+var submissionSchema = new Schema({
+    student    : { type: ObjectId, required: true , unique: false },
+    assignment : { type: ObjectId, required: true , unique: false },
+    answers    : { type: Array   , required: true , unique: false },
+    correct    : { type: Array   , required: false, unique: false },
+    time       : { type: Date    , required: false, unique: false },
+    duration   : { type: Number  , required: false, unique: false }
+})
 userSchema.pre('save', function(next) {
 	var user = this;
+    
 	if (!user.isModified('password')) return next();
 	bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
 		if (err) return next(err);
@@ -81,5 +93,6 @@ exports.model = {
     class      : mongoose.model('Class'     , classSchema      ),
     school     : mongoose.model('School'    , schoolSchema     ),
     module     : mongoose.model('Module'    , moduleSchema     ),
-    assignment : mongoose.model('Assignment', assignmentSchema )
+    assignment : mongoose.model('Assignment', assignmentSchema ),
+    submission : mongoose.model('Submission', submissionSchema )
 }

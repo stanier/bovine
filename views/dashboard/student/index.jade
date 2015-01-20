@@ -2,13 +2,11 @@ block dashboard
     script(src='/js/dashboard/student.js')
     div(ng-controller='dashboardController' ng-init='getEnrolled()')
         .col-md-9.col-xs-12
-            h3 Enrolled classes:
+            h3 Instructed classes:
             .panel.panel-primary(ng-repeat='class in enrolled')
                 .panel-heading
                     h4.panel-title {{ class.name }}
-                .panel-body
-                    p {{ class.desc }}
-                    a(href='{{ class.website }}') {{ class.website }}
+                .panel-body(ng-init='parseDesc(class)' ng-bind-html='class.parsedDesc')
                 .panel-footer.clearfix
                     p.pull-left Instructed by {{ class.teacher.name }}
                     a.btn.btn-primary.pull-right(href='/class/{{ class._id }}') Go to class

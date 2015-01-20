@@ -19,14 +19,19 @@
                     aria-controls='#{{ module.id }}'
                 ) {{ module.name }}
             .pull-right
-                button.btn.btn-primary(ng-click='addActivity(module.id)'): .fa.fa-plus
+                button.btn.btn-primary(ng-click='addActivity(module.id)  '): .fa.fa-plus
                 button.btn.btn-primary(ng-click='editModule(module.id)   '): .fa.fa-gear
                 button.btn.btn-primary(ng-click='removeModule(module.id) '): .fa.fa-close
         .panel-collapse.collapse(id='{{ module.id }}' role='tabpanel' ng-class='{in: $first}')
             .panel-body(ng-init='parseDesc(module)' ng-bind-html='module.parsedDesc')
             .panel-footer(ng-hide='activities')
                 h4 activities
-                a(ng-repeat='activity in module.detailedActivities' href='./{{ module.id }}/activity/{{ activity.id }}/') {{ activity.name }}
+                div(ng-repeat='activity in module.detailedActivities' style='overflow:auto')
+                    a(href='/class/{{classId}}/module/{{ module.id }}/activity/{{ activity.id }}/')
+                        | {{ activity.name }}
+                    button.btn.pull-right(ng-click='removeActivity()'): .fa.fa-close
+                    // TODO:  Implement click-to-copy mechanism using DOM Clipboard API
+                    //button.btn.pull-right(): .fa.fa-files-o
 #editModule.modal.fade: .modal-dialog: .modal-content(style='overflow:auto')
     .modal-body
         form.form-horizontal(novalidate)
@@ -37,10 +42,9 @@
                 .col-sm-10: input.form-control#editModule_name(type='text' ng-model='moduleTarget.name')
             .form-group
                 .col-sm-2: label.control-label(for='editModule_desc') Description
-                .col-sm-10: textarea.form-control#editModule_desc(type='text' ng-model='moduleTarget.desc' cols='50' rows='2')
-            
-            .modal-footer
-                button.btn.btn-primary(type='submit' ng-click='updateModule(moduleTarget.id)') Update
+                .col-sm-10: textarea.form-control#editModule_desc(type='text' ng-model='moduleTarget.desc' cols='50' rows='20')
+    .modal-footer
+        button.btn.btn-primary(type='submit' ng-click='updateModule(moduleTarget.id)') Update
 #addModule.modal.fade: .modal-dialog: .modal-content(style='overflow:auto')
     .modal-body
         form.form-horizontal(novalidate)
@@ -52,9 +56,8 @@
             .form-group
                 .col-sm-2: label.control-label(for='addModule_desc') Description
                 .col-sm-10: textarea.form-control#addModule_desc(type='text' ng-model='newModuleDesc' cols='50' rows='2')
-                
-            .modal-footer
-                button.btn.btn-primary(type='submit' ng-click='createModule(newModuleName, newModuleDesc)') Create Module
+    .modal-footer
+        button.btn.btn-primary(type='submit' ng-click='createModule(newModuleName, newModuleDesc)') Create Module
 #addActivity.modal.fade: .modal-dialog: .modal-content(style='overflow:auto')
     .modal-body
         h1 Create activity
@@ -87,7 +90,7 @@
                         table.table.table-condensed.table-striped
                             tbody
                                 tr(ng-repeat='option in question.options')
-                                    td.col-sm-1: input(type='radio' style='width:100%' ng-model='option.isCorrect' name='{{ question.id }}')
+                                    td.col-sm-1: input(type='radio' style='width:100%' ng-model='question.correct' value='{{ option.id }}')
                                     td.col-sm-11: input(type='text' style='width:100%' ng-model='option.text' placeholder='eg. 4')
                     .panel-body(ng-if='question.type == "matching"')
                         .pull-right: button.btn.btn-primary(ng-click='questionClass.matching.add(question)'): .fa.fa-plus

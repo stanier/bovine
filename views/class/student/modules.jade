@@ -1,0 +1,27 @@
+#modules.tab-pane.active.panel-group(role='tablist' aria-multiselectable='true')
+    .panel.panel-primary(ng-repeat='module in modules')
+        .panel-heading(style='overflow:auto' role='tab')
+            .panel-title.pull-left
+                a(
+                    data-toggle='collapse'
+                    data-parent='#modules'
+                    href='#{{ module.id }}'
+                    ng-if='$first'
+                    aria-expanded='true'
+                    aria-controls='#{{ module.id }}'
+                ) {{ module.name }}
+                a.collapsed(
+                    data-toggle='collapse'
+                    data-parent='#modules'
+                    href='#{{ module.id }}'
+                    ng-if='!$first'
+                    aria-expanded='false'
+                    aria-controls='#{{ module.id }}'
+                ) {{ module.name }}
+        .panel-collapse.collapse(id='{{ module.id }}' role='tabpanel' ng-class='{in: $first}')
+            .panel-body(ng-init='parseDesc(module)' ng-bind-html='module.parsedDesc')
+            //.panel-footer(ng-hide='activities')
+                h4 activities
+                div(ng-repeat='activity in module.detailedActivities')
+                    a(href='/class/{{classId}}/module/{{ module.id }}/activity/{{ activity.id }}/') {{ activity.name }}
+                    br

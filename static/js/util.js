@@ -1,12 +1,10 @@
-var bovine = angular.module('bovine', [])
-    .service('sharedTarget', function() {
-        var target;
-        return {
-            get: function() { return target },
-            set: function(id) { target = id }
-        }
-    });
-
+var bovine = angular.module('bovine', []).service('sharedTarget', function() {
+    var target;
+    return {
+        get: function() { return target },
+        set: function(id) { target = id }
+    }
+});
 toastr.options = {
     closeButton: true,
     positionClass: 'toast-bottom-left'
@@ -20,11 +18,7 @@ function clone(o) {
 }
 
 function objectHasValue(object, val) {
-    for(var prop in object) {
-        if(object.hasOwnProperty(prop) && object[prop] === val) {
-            return true;   
-        }
-    }
+    for(var prop in object) { if(object.hasOwnProperty(prop) && object[prop] === val) return true }
     return false;
 };
 

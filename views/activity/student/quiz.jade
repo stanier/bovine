@@ -1,0 +1,24 @@
+script(src='/js/quiz/student.js')
+
+div(ng-controller='quizController')
+    div(ng-hide='started')
+        br
+        | Press the button below to begin the quiz
+        br
+        button.btn.btn-primary(ng-click='getQuiz("#{course}", "#{module}", "#{activity._id}")') Attempt quiz
+    div(ng-show='started')
+        br
+        .col-sm-3: .panel.panel-default
+                .panel-heading Questions
+                .panel-body
+                    button.btn(ng-repeat='question in attemptData.questions') {{ question.id }}
+        .col-sm-9
+            .panel.panel-primary(ng-repeat='question in attemptData.questions')
+                .panel-heading Question {{ question.id }}
+                .panel-body
+                    h4 {{ question.prompt }}
+                    table.table(ng-show='question.options')
+                        tr(ng-repeat='option in question.options'): td
+                            input(type='radio' ng-model='question.selected' ng-value='option.id' style='margin-right: 10px')
+                            | {{ option.text }}
+            button.btn.btn-primary(ng-click='submitQuiz()') Submit

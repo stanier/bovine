@@ -22,7 +22,6 @@ bovine.controller('dashboardController', ['$scope', '$http', '$sce', function($s
         .error(function(data, status) { $scope.enrolled = data });
     }
     $scope.parseDesc = function(unit) {
-        if (unit.desc) unit.parsedDesc = $sce.trustAsHtml(marked(unit.desc));
-        else unit.parsedDesc = $sce.trustAsHtml('<i>dust</i>');
+        unit.parsedDesc = (unit.desc) ? $sce.trustAsHtml(marked(unit.desc)) : $sce.trustAsHtml('<i>dust</i>') ;
     }
 }]);

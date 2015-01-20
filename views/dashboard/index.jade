@@ -1,18 +1,16 @@
 extends /page
 
 block content
-    include /sidebar
+    include /includes/sidebar
+    
     case user.role
-        when 4
-            include admin/index.jade
-        when 3
-            include manager/index.jade
-        when 2
-            include teacher/index.jade
-        when 1
-            include student/index.jade
+        when 4: include admin/index.jade
+        when 3: include manager/index.jade
+        when 2: include teacher/index.jade
+        when 1: include student/index.jade
         default
             h3 Access denied
             p We're sorry, but we could not render your page.  Perhaps you are
             | not logged in or were not entered into the system correctly?
+    
     block dashboard

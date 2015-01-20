@@ -1,8 +1,9 @@
-bovine.controller('dashboardController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
+bovine.controller('accountController', ['$scope', '$http', function($scope, $http) {
     $scope.getEnrolled = function() {
         $http.get('/user/enrolled')
         .success(function(data, status) {
             $scope.enrolled = data;
+            console.log(data);
             $scope.enrolled.forEach(function(entry) {
                 entry.teacher = { id: entry.teacher };
                 $http.get('/user/profile/' + entry.teacher.id + '/name')
@@ -11,9 +12,5 @@ bovine.controller('dashboardController', ['$scope', '$http', '$sce', function($s
             });
         })
         .error(function(data, status) { $scope.enrolled = data });
-    }
-    
-    $scope.parseDesc = function(unit) {
-        unit.parsedDesc = (unit.desc) ? $sce.trustAsHtml(marked(unit.desc)) : $sce.trustAsHtml('<i>dust</i>') ;
     }
 }]);

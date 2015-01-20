@@ -14,16 +14,18 @@ bovine.controller('classController', ['$scope', '$http', '$sce', 'sharedTarget',
             .error(function(data, status) { showError(data) });
         
             $scope.modules = [];
-            for (var i = 0; i < $scope.oldTarget.modules.length; i++) {
+            for (var i in $scope.oldTarget.modules.length) {
                 $http.get('/class/' + $scope.classId + '/module/' + $scope.oldTarget.modules[i] + '/info')
                 .success(function(data, status) {
                     $scope.modules.push(data);
                     
-                    for (var j = 0; j < $scope.modules[i-1].activities.length; j++) {
+                    for (var j in $scope.modules[i-1].activities.length) {
                         $scope.modules[i-1].detailedActivities = [];
                         
-                        $http.get('/class/' + $scope.classId + '/module/' + $scope.modules[i-1].id + '/activity/'
-                                  + $scope.modules[i-1].activities[j] + '/info')
+                        $http.get('/class/' + $scope.classId +
+                                  '/module/' + $scope.modules[i-1].id +
+                                  '/activity/' + $scope.modules[i-1].activities[j] +
+                                  '/info')
                         .success(function(data, status) { $scope.modules[i-1].detailedActivities.push(data) })
                         .error(function(data, status) { showError(data) });
                     }
@@ -148,12 +150,15 @@ bovine.controller('classController', ['$scope', '$http', '$sce', 'sharedTarget',
     }
     $scope.createQuiz = function(quiz) {
         var post = { type: 'quiz' };
-        if ( quiz.name      ) post.name      = quiz.name      ;
-        if ( quiz.desc      ) post.desc      = quiz.desc      ;
-        if ( quiz.questions ) post.questions = quiz.questions ;
+        
+        if ( quiz.name      ) post.name    = quiz.name      ;
+        if ( quiz.desc      ) post.desc    = quiz.desc      ;
+        if ( quiz.questions ) post.content = { questions: quiz.questions };
         
         if ( post.name ) {
-            $http.post('/class/' + $scope.classId + '/module/' + quiz.parent + '/activity/create', post)
+            $http.post('/class/' + $scope.classId +
+                       '/module/' + quiz.parent +
+                       '/activity/create', post)
             .success(function(data, status) {
                 showSuccess(data);
                 $scope.reInit();

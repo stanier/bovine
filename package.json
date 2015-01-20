@@ -2,6 +2,14 @@
     "name": "bovine",
     "version": "0.0.1",
     "author": "Keyton Stanier keyton@stanier.net",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/stanier/bovine"
+    },
     "dependencies": {
         "express": "~4.10.1",
         "connect-mongo": "~0.4.1",
