@@ -117,7 +117,7 @@ var classes = {
         if (url.parse(req.url, true).query.detailed == 'true') {
             var response = [];
             if (req.doc.enrolled.length == 0) res.send(req.doc.enrolled);
-            for (var i in req.doc.enrolled.length) {
+            for (var i in req.doc.enrolled) {
                 userModel.where({ _id: req.doc.enrolled[i] }).findOne(function(err, doc) {
                     if (err) {
                         res.end('An error has occured');
@@ -324,7 +324,7 @@ var classes = {
                         
                         var visibleQuestions = [];
                         
-                        for (var i in selected.content.questions.length) {
+                        for (var i in selected.content.questions) {
                             visibleQuestions.push({
                                 prompt  : selected.content.questions[i].prompt  ,
                                 type    : selected.content.questions[i].type    ,
@@ -332,7 +332,7 @@ var classes = {
                                 id      : selected.content.questions[i].id      ,
                             });
                             
-                            if (i = selected.content.questions.length) {
+                            if (i == selected.content.questions.length - 1) {
                                 res.send(visibleQuestions);
                             }
                         }
@@ -342,12 +342,13 @@ var classes = {
                     assignmentModel.findOne({_id: req.body.quiz, type: 'quiz'}, function(err, selected) {
                         if (err) {
                             res.end(err);
+                            console.log(err);
                             return true;
                         }
                         
                         var correct = [];
                         
-                        for (var i in selected.content.questions.length) {
+                        for (var i in selected.content.questions) {
                             console.log(selected.content.questions[i]);
                             console.log(req.body.questions[i]);
                             
@@ -361,10 +362,10 @@ var classes = {
                             answers    : req.body.questions,
                         }, function(err, result) {
                             if (err) {
-                                res.send(err);
+                                res.end(err);
                                 return true;
                             }
-                            res.send('Quiz submitted successfully');
+                            res.end('Quiz submitted successfully');
                         })
                     });
                 }

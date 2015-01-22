@@ -10,12 +10,12 @@ bovine.controller('classController', ['$scope', '$http', '$sce', 'sharedTarget',
             $scope.target    = clone(data[0]);
         
             $scope.modules = [];
-            for (var i in $scope.oldTarget.modules.length) {
+            for (var i in $scope.oldTarget.modules) {
                 $http.get('/class/' + $scope.classId + '/module/' + $scope.oldTarget.modules[i] + '/info')
                 .success(function(data, status) {
                     $scope.modules.push(data);
                     
-                    for (var j in $scope.modules[i-1].activities.length) {
+                    for (var j in $scope.modules[i-1].activities) {
                         $scope.modules[i-1].detailedActivities = [];
                         
                         $http.get('/class/' + $scope.classId +
