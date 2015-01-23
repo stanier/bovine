@@ -4,10 +4,12 @@ block head
 block dashboard
     .col-md-9.col-xs-12
         ul.nav.nav-pills
-            li.active: a(href='#user' data-toggle='tab') User
-            li: a(href='#class' data-toggle='tab') Class
-            li: a(href='#school' data-toggle='tab') School
+            li.active: a(href='#district' data-toggle='tab') District
+            li:        a(href='#user'     data-toggle='tab') School
+            li:        a(href='#class'    data-toggle='tab') Class
+            li:        a(href='#school'   data-toggle='tab') User
         .tab-content
-            include user/index
-            include class/index
+            include district/index
             include school/index
+            include class/index
+            include user/index

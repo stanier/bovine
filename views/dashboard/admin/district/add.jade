@@ -1,0 +1,24 @@
+tab-pane#districtAdd(ng-controller='addDistrict')
+    .well.col-sm-12
+        form.form-horizontal(novalidate)
+            .form-group.col-sm-4
+                label.required.control-label.col-sm-3(for='districtAdd_name') Name
+                .col-sm-9: input.form-control#districtAdd_name(type='text' ng-model='name')
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='districtAdd_website') Website
+                .col-sm-9: input.form-control#districtAdd_website(type='text' ng-model='website')
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='districtAdd_zipcode') Zipcode
+                .col-sm-9: input.form-control#districtAdd_zipcode(type='text' ng-model='zipcode')
+            .form-group.col-sm-4
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='districtAdd_city') City
+                .col-sm-9: input.form-control#districtAdd_city(type='text' ng-model='city')
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='districtAdd_state') State
+                .col-sm-9: input.form-control#districtAdd_state(type='text' ng-model='state')
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='districtAdd_country') Country
+                .col-sm-9: input.form-control#districtAdd_country(type='text' ng-model='country')
+            .form-group.col-sm-12
+                .col-sm-offset-5.col-sm-2: button.col-md-11.form-control(type='submit' ng-click='write(name, website, zipcode, city, state, country)') Create district

@@ -173,7 +173,7 @@ bovine.controller('findSchool', ['$scope', '$http', 'sharedTarget', function($sc
     $scope.shareTarget = function(id) { sharedTarget.set(id) }
 }]);
 bovine.controller('addSchool', ['$scope', '$http', function($scope, $http) {
-    $scope.write = function(name, type, website, zipcode, district, city, state){
+    $scope.write = function(name, type, website, zipcode, district, city, state, country){
         var queryString = '/school/create';
         var postData = {};
         
@@ -184,6 +184,7 @@ bovine.controller('addSchool', ['$scope', '$http', function($scope, $http) {
         if (district ) postData.district = district ;
         if (city     ) postData.city     = city     ;
         if (state    ) postData.state    = state    ;
+        if (country  ) postData.country  = country  ;
         
         if (name && type) {
             $http.post(queryString, postData)

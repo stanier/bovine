@@ -1,0 +1,30 @@
+#districtEdit.modal.fade(tabindex='-1' role='dialog' aria-hidden='true'): .modal-dialog: .modal-content
+    .modal-body
+        div(ng-controller='editdistrict')
+            h3 Edit district
+            form.form-horizontal(novalidate)
+                input#districtEdit_chrome_autofill_fix_user(type='text' style='display: none')
+                input#districtEdit_chrome_autofill_fix_pass(type='password' style='display: none')
+                .form-group
+                    .col-sm-2: label.control-label(for='districtEdit_username') Name
+                    .col-sm-10: input.form-control#districtEdit_username(type='text' ng-model='target.username')
+                .form-group
+                    .col-sm-2: label.control-label(for='districtEdit_website') Website
+                    .col-sm-10: input.form-control#districtEdit_website(type='website' ng-model='target.website')
+                .form-group
+                    .col-sm-2: label.control-label(for='districtEdit_zipcode') Zipcode
+                    .col-sm-10: select.form-control#districtEdit_zipcode(type='number' ng-model='target.zipcode')
+                .form-group
+                    .col-sm-2: label.control-label(for='districtEdit_city') City
+                    .col-sm-10: input.form-control#districtEdit_city(type='number' ng-model='target.city')
+                .form-group
+                    .col-sm-2: label.control-label(for='districtEdit_state') State
+                    .col-sm-10: input.form-control#districtEdit_state(type='number' ng-model='target.state')
+                .form-group
+                    .col-sm-2: label.control-label(for='districtEdit_country') Country
+                    .col-sm-10: input.form-control#districtEdit_country(type='number' ng-model='target.country')
+                .form-group
+                    .col-sm-2: label.control-label(for='districtEdit_id') ID
+                    .col-sm-10: input.form-control#districtEdit_id(type='text' ng-model='target.id' disabled)
+                .modal-footer
+                    button.btn.btn-primary(type='submit' ng-click='write()') Save Changes

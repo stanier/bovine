@@ -29,5 +29,8 @@
             .form-group.col-sm-4
                 label.control-label.col-sm-3(for='schoolAdd_state') State
                 .col-sm-9: input.form-control#schoolAdd_state(type='text' ng-model='state')
+            .form-group.col-sm-4
+                label.control-label.col-sm-3(for='schoolAdd_country') Country
+                .col-sm-9: input.form-control#schoolAdd_country(type='text' ng-model='country')
             .form-group.col-sm-12
-                .col-sm-offset-5.col-sm-2: button.col-md-11.form-control(type='submit' ng-click='write(name, type, website, zipcode, district, city, state)') Create school
+                .col-sm-offset-5.col-sm-2: button.col-md-11.form-control(type='submit' ng-click='write(name, type, website, zipcode, district, city, state, country)') Create school

@@ -1,0 +1,10 @@
+.tab-pane#district
+    ul.nav.nav-tabs
+        li.active: a(href='#districtLookup' data-toggle='tab') Find district
+            div(class="ripple-wrapper")
+        li: a(href='#districtAdd' data-toggle='tab') Add district
+            div(class="ripple-wrapper")
+    .tab-content
+        include add
+        include edit
+        include lookup
