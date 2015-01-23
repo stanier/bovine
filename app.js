@@ -16,11 +16,10 @@ var stylus = require('stylus');
 var nib    = require('nib');
 
 // Let our dbschema file handle all of our configurations for connecting to Mongo
-var db   = require('./config/dbschema');
+var db = require('./config/dbschema');
 // And call pass to help with auth
 var pass = require('./config/pass');
 
-var port;
 var app  = express();
 
 // Compiler string for when we work with stylus CSS
@@ -65,14 +64,17 @@ app.use(express.static(__dirname + '/static'));
 // Initiliaze router
 var router = require('./router')(app);
 
-// Lastly, start listening for connections
-// 
-// IMPORTANT:  This MUST be done ONLY after everything else has been done.  Else
-// we may potentially introduce runtime errors or security loopholes.
-app.listen(port, function(){
-    var mode = '';
-    
-    if (app.get('env') == 'development') mode = ' in development mode';
-    
-    console.log('bovine started on port ' + port + mode);
-});
+// Initialize config and finish loading server
+var config = require('./config/config')(app, db, router);
+
+// // Lastly, start listening for connections
+// // 
+// // IMPORTANT:  This MUST be done ONLY after everything else has been done.  Else
+// // we may potentially introduce runtime errors or security loopholes.
+// app.listen(port, function(){
+//     var mode = '';
+//     
+//     if (app.get('env') == 'development') mode = ' in development mode';
+//     
+//     console.log('bovine started on port ' + port + mode);
+// });

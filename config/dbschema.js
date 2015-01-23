@@ -18,7 +18,6 @@ var Schema = mongoose.Schema,
 //   in one object, which is identified as a revision based on it's UNIX
 //   timestamp
 var configSchema = new Schema({
-    configured : { type: Boolean, required: false, unique: false },
     public     : { type: Boolean, required: false, unique: false },
     hostname   : { type: String , required: false, unique: false },
     port       : { type: Number , required: false, unique: false },
@@ -147,9 +146,11 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
 }
 
 exports.model = {
+    config     : mongoose.model('Config'    , configSchema     ),
     user       : mongoose.model('User'      , userSchema       ),
-    class      : mongoose.model('Class'     , classSchema      ),
+    district   : mongoose.model('District'  , districtSchema   ),
     school     : mongoose.model('School'    , schoolSchema     ),
+    class      : mongoose.model('Class'     , classSchema      ),
     module     : mongoose.model('Module'    , moduleSchema     ),
     assignment : mongoose.model('Assignment', assignmentSchema ),
     submission : mongoose.model('Submission', submissionSchema )
