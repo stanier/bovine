@@ -9,11 +9,12 @@
                 .col-sm-9
                     select.form-control#schoolAdd_type(ng-model='type')
                         option(value='' selected) --Type--
+                        
                         option(value='elementary') Elementary School
-                        option(value='junior') Junior High
-                        option(value='high') High School
-                        option(value='college') College
-                        option(value='other') Other
+                        option(value='junior'    ) Junior High
+                        option(value='high'      ) High School
+                        option(value='college'   ) College
+                        option(value='other'     ) Other
             .form-group.col-sm-4
                 label.control-label.col-sm-3(for='schoolAdd_website') Website
                 .col-sm-9: input.form-control#schoolAdd_website(type='text' ng-model='website')

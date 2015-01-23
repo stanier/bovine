@@ -10,7 +10,7 @@
                     option(value='extracurricular') Extracurricular
                     option(value='other') Other
             .col-sm-3: input.form-control(ng-model='website' placeholder='Website')
-            .col-sm-2: input.form-control(ng-model='grade' placeholder='Grade')
+            .col-sm-2: input.form-control(ng-model='grade'   placeholder='Grade'  )
             .col-sm-3: button.form-control(type='submit' ng-click='lookup(name, category, website, grade)') Search
     .well.col-sm-12.ng-hide(ng-show='data')
         table.table
@@ -22,11 +22,11 @@
                 td Grade
                 td
             tbody: tr(ng-repeat='record in data')
-                td {{ $index + 1 }}
-                td {{ record.name }}
+                td {{ $index + 1      }}
+                td {{ record.name     }}
                 td {{ record.category }}
-                td {{ record.website }}
-                td {{ record.grade }}
+                td {{ record.website  }}
+                td {{ record.grade    }}
                 td.btn-group
                     button.btn.btn-primary(ng-click='shareTarget(record.id)' data-toggle='modal' data-target='#classEdit'): .fa.fa-gear
-                    button.btn.btn-primary(ng-click='remove(record.id)'): .fa.fa-remove
+                    button.btn.btn-primary(ng-click='remove(record.id)'                                                  ): .fa.fa-remove

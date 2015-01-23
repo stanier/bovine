@@ -3,7 +3,7 @@
         div(ng-controller='editUser')
             h3 Edit user
             form.form-horizontal(novalidate)
-                input#userEdit_chrome_autofill_fix_user(type='text' style='display: none')
+                input#userEdit_chrome_autofill_fix_user(type='text'     style='display: none')
                 input#userEdit_chrome_autofill_fix_pass(type='password' style='display: none')
                 .form-group
                     .col-sm-2: label.control-label(for='userEdit_username') Username
@@ -17,9 +17,9 @@
                 .form-group
                     .col-sm-1: label.control-label Name
                     .col-sm-11
-                        .col-sm-4: input.form-control#userEdit_firstname(type='text' ng-model='target.firstName')
+                        .col-sm-4: input.form-control#userEdit_firstname(type='text'  ng-model='target.firstName' )
                         .col-sm-4: input.form-control#userEdit_middlename(type='text' ng-model='target.middleName')
-                        .col-sm-4: input.form-control#userEdit_lastname(type='text' ng-model='target.lastName')
+                        .col-sm-4: input.form-control#userEdit_lastname(type='text'   ng-model='target.lastName'  )
                 .form-group
                     .col-sm-2: label.control-label(for='userEdit_school') School
                     .col-sm-10: select.form-control#userEdit_school(ng-model='school' ng-options='school for school in schools')

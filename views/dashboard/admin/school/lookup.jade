@@ -5,15 +5,16 @@
             .col-sm-3
                 select.form-control(ng-model='type')
                     option(value='' selected) --Type--
+                    
                     option(value='elementary') Elementary School
-                    option(value='junior') Junior High
-                    option(value='high') High School
-                    option(value='college') College
-                    option(value='other') Other
-            .col-sm-3: input.form-control(ng-model='zipcode' placeholder='Zip code')
+                    option(value='junior'    ) Junior High
+                    option(value='high'      ) High School
+                    option(value='college'   ) College
+                    option(value='other'     ) Other
+            .col-sm-3: input.form-control(ng-model='zipcode'  placeholder='Zip code')
             .col-sm-3: input.form-control(ng-model='district' placeholder='District')
-            .col-sm-3: input.form-control(ng-model='city' placeholder='City')
-            .col-sm-3: input.form-control(ng-model='state' placeholder='State')
+            .col-sm-3: input.form-control(ng-model='city'     placeholder='City'    )
+            .col-sm-3: input.form-control(ng-model='state'    placeholder='State'   )
             .col-sm-6: button.form-control(type='submit' ng-click='lookup(name, type)') Search
     .well.col-sm-12.ng-hide(ng-show='data')
         table.table
@@ -28,14 +29,14 @@
                 td State
                 td
             tbody: tr(ng-repeat='record in data')
-                td {{ $index + 1 }}
-                td {{ record.name }}
-                td {{ record.type }}
-                td {{ record.website }}
-                td {{ record.zipcode }}
+                td {{ $index + 1      }}
+                td {{ record.name     }}
+                td {{ record.type     }}
+                td {{ record.website  }}
+                td {{ record.zipcode  }}
                 td {{ record.district }}
-                td {{ record.city }}
-                td {{ record.state }}
+                td {{ record.city     }}
+                td {{ record.state    }}
                 td.btn-group
                     button.btn.btn-primary(ng-click='shareTarget(record.id)' data-toggle='modal' data-target='#schoolEdit'): .fa.fa-gear
                     button.btn.btn-primary(ng-click='remove(record.id)'): .fa.fa-remove

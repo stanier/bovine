@@ -1,7 +1,7 @@
 .tab-pane#userAdd(ng-controller='addUser')
     .well.col-sm-12
         form.form-horizontal(novalidate)
-            input#userAdd_chrome_autofill_fix_user(type='text' style='display: none')
+            input#userAdd_chrome_autofill_fix_user(type='text'     style='display: none')
             input#userAdd_chrome_autofill_fix_pass(type='password' style='display: none')
             .form-group.col-sm-4
                 label.required.control-label.col-sm-4(for='userAdd_username') Username
@@ -15,9 +15,9 @@
             .form-group.col-sm-12
                 label.required.control-label.col-sm-1 Name
                 .col-sm-11
-                    .col-sm-4: input.form-control(type='text' ng-model='firstName')
+                    .col-sm-4: input.form-control(type='text' ng-model='firstName' )
                     .col-sm-4: input.form-control(type='text' ng-model='middleName')
-                    .col-sm-4: input.form-control(type='text' ng-model='lastName')
+                    .col-sm-4: input.form-control(type='text' ng-model='lastName'  )
             .form-group.col-sm-6
                 label.control-label.col-sm-2(for='userAdd_school') School
                 .col-sm-10: select.form-control#userAdd_school(ng-model='school' ng-options='school for school in schools')

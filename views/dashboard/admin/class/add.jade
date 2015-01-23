@@ -9,10 +9,11 @@
                 .col-sm-9
                     select.form-control#classAdd_type(ng-model='category')
                         option(value='' selected) --Category--
-                        option(value='english') English
-                        option(value='mathematics') Mathematics
+                        
+                        option(value='english'        ) English
+                        option(value='mathematics'    ) Mathematics
                         option(value='extracurricular') Extracurricular
-                        option(value='other') Other
+                        option(value='other'          ) Other
             .form-group.col-sm-4
                 label.control-label.col-sm-3(for='classAdd_website') Website
                 .col-sm-9: input.form-control#classAdd_website(type='text' ng-model='website')
