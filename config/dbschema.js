@@ -38,7 +38,7 @@ var userSchema = new Schema({
     lastName   : { type: String  , required: false, unique: false },
     school     : { type: ObjectId, required: false, unique: false },
     role       : { type: Number  , required: true , unique: false },
-    grade      : { type: Number  , required: true , unique: false }
+    grade      : { type: Number  , required: false , unique: false }
 });
 //= DISTRICT OBJECT ============================================================
 //
