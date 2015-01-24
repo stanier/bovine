@@ -12,11 +12,12 @@ bovine.controller('dashboardController', ['$scope', '$http', '$sce', function($s
         $http.get('/class/lookup?teacher=' + $scope.id)
         .success(function(data, status) {
             $scope.enrolled = data;
+            
             $scope.enrolled.forEach(function(entry) {
                 entry.teacher = { id: entry.teacher };
                 $http.get('/user/profile/' + entry.teacher.id + '/name')
-                .success(function(data, status) { entry.teacher.name = data })
-                .error(function(data, status) { entry.teacher.name = 'An error occured' });
+                .success(function(data, status) { entry.teacher.name = data               })
+                .error(  function(data, status) { entry.teacher.name = 'An error occured' });
             });
         })
         .error(function(data, status) { $scope.enrolled = data });

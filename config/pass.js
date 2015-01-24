@@ -2,16 +2,18 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var db = require('./dbschema');
 
-passport.serializeUser(function(user, next) { next(null, user.id) });
-
-passport.deserializeUser(function(id, next) { db.model.user.findById(id, function (err, user) { next(err, user) }) });
+passport.serializeUser(  function(user, next) { next(null, user.id)                                                  });
+passport.deserializeUser(function(id  , next) { db.model.user.findById(id, function (err, user) { next(err, user) }) });
 
 passport.use(new LocalStrategy(function(username, password, next) {
     db.model.user.findOne({ username: username }, function(err, user) {
         if (err) return next(err);
+        
         if (!user) return next(null, false, { message: 'Unknown user ' + username });
+        
         user.comparePassword(password, function(err, isMatch) {
             if (err) return next(err);
+            
             if (isMatch) return next(null, user);
             else return next(null, false, { message: 'Invalid password' });
         });
@@ -20,6 +22,7 @@ passport.use(new LocalStrategy(function(username, password, next) {
 
 exports.ensureAuthenticated = function(req, res, next) {
     if (req.isAuthenticated()) return next();
+    
     res.redirect('/login')
 }
 
@@ -34,6 +37,7 @@ exports.ensureAdmin = function(req, res, next) {
 }
 exports.atleastManager = function(req, res, next) {
     if (req.isAuthenticated()) return next();
+    
     res.redirect('/login');
     
     if (req.user && req.user.role >= 3) next();

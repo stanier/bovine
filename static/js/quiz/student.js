@@ -9,8 +9,6 @@ bovine.controller('quizController', ['$http', '$scope', function($http, $scope) 
                 questions : data
             }
             $scope.started = true;
-            
-            console.log($scope.questions);
         })
         .error(function(data, status) { showError(data) });
     }
@@ -21,6 +19,6 @@ bovine.controller('quizController', ['$http', '$scope', function($http, $scope) 
                    '/quiz/submit',
                    $scope.attemptData)
         .success(function(data, status) { showSuccess(data) })
-        .error(function(data, status) { showError(data) });
+        .error(  function(data, status) { showError(data)   });
     }
 }]);

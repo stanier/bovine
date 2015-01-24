@@ -11,9 +11,10 @@ bovine.controller('classController', ['$scope', '$http', '$sce', 'sharedTarget',
             
             $http.get('/class/' + $scope.classId + '/students?detailed=true')
             .success(function(data, status) { $scope.students = clone(data) })
-            .error(function(data, status) { showError(data) });
+            .error(  function(data, status) { showError(data)               });
         
             $scope.modules = [];
+            
             for (var i in $scope.oldTarget.modules) {
                 $http.get('/class/' + $scope.classId + '/module/' + $scope.oldTarget.modules[i] + '/info')
                 .success(function(data, status) {
@@ -22,12 +23,12 @@ bovine.controller('classController', ['$scope', '$http', '$sce', 'sharedTarget',
                     for (var j in $scope.modules[i-1].activities) {
                         $scope.modules[i-1].detailedActivities = [];
                         
-                        $http.get('/class/' + $scope.classId +
-                                  '/module/' + $scope.modules[i-1].id +
+                        $http.get('/class/'    + $scope.classId                    +
+                                  '/module/'   + $scope.modules[i-1].id            +
                                   '/activity/' + $scope.modules[i-1].activities[j] +
-                                  '/info')
+                                  '/info'      )
                         .success(function(data, status) { $scope.modules[i-1].detailedActivities.push(data) })
-                        .error(function(data, status) { showError(data) });
+                        .error(  function(data, status) { showError(data)                                   });
                     }
                 })
                 .error(function(data, status) { showError(data) });
@@ -38,6 +39,7 @@ bovine.controller('classController', ['$scope', '$http', '$sce', 'sharedTarget',
     };
     $scope.write = function() {
         var post = {};
+        
         if ( $scope.target.name     != $scope.oldTarget.name     ) post.name     = $scope.target.name     ;
         if ( $scope.target.category != $scope.oldTarget.category ) post.category = $scope.target.category ;
         if ( $scope.target.website  != $scope.oldTarget.website  ) post.website  = $scope.target.website  ;
@@ -47,36 +49,40 @@ bovine.controller('classController', ['$scope', '$http', '$sce', 'sharedTarget',
         
         if ( post.name || post.category || post.website || post.grade || post.teacher || post.desc) {
             post._id = $scope.oldTarget.id;
+            
             $http.post('/class/update', post)
             .success(function(data, status) { showSuccess(data) })
-            .error(function(data, status) { showError(data) });
+            .error(  function(data, status) { showError(data)   });
         }
     }
     $scope.enroll = function(course, student) {
         $http.post('/class/' + course + '/enroll', {student: student})
         .success(function(data, status) { showSuccess(data) })
-        .error(function(data, status) { showError(data) });
+        .error(  function(data, status) { showError(data)   });
     }
     $scope.drop = function(course, student) {
         $http.post('/class/' + course + '/drop', {student: student})
         .success(function(data, status) { showSuccess(data) })
-        .enroll(function(data, status) { showError(data) });
+        .enroll( function(data, status) { showError(data)   });
     }
     $scope.lookup = function(username, firstName, middleName, lastName, email) {
         var queryString = '/user/lookup';
+        
         if ( username   ) queryString = queryString.concat('?username='   + username   );
         if ( firstName  ) queryString = queryString.concat('?firstName='  + firstName  );
         if ( middleName ) queryString = queryString.concat('?middleName=' + middleName );
         if ( lastName   ) queryString = queryString.concat('?lastName='   + lastName   );
         if ( email      ) queryString = queryString.concat('?email='      + email      );
+        
         if ( username || firstName || middleName || lastName || email ) {
             $http.get(queryString)
             .success(function(data, status){ $scope.enrollStudents = data })
-            .error(function(data,status){ $scope.enrollStudents = data }); 
+            .error(  function(data, status){ $scope.enrollStudents = data }); 
         } else $scope.data = null;
     }
     $scope.createModule = function(name, desc) {
         var post = {};
+        
         if ( name ) post.name = name ;
         if ( desc ) post.desc = desc ;
         
@@ -126,9 +132,7 @@ bovine.controller('classController', ['$scope', '$http', '$sce', 'sharedTarget',
         if (unit.desc) unit.parsedDesc = $sce.trustAsHtml(marked(unit.desc));
         else unit.parsedDesc = $sce.trustAsHtml('<i>dust</i>');
     }
-    $scope.quiz = {
-        questions : []
-    }
+    $scope.quiz = { questions : [] }
     
     $scope.addQuestion = function() {
         $scope.quiz.questions[$scope.quiz.questions.length] = {
@@ -151,13 +155,13 @@ bovine.controller('classController', ['$scope', '$http', '$sce', 'sharedTarget',
     $scope.createQuiz = function(quiz) {
         var post = { type: 'quiz' };
         
-        if ( quiz.name      ) post.name    = quiz.name      ;
-        if ( quiz.desc      ) post.desc    = quiz.desc      ;
+        if ( quiz.name      ) post.name    = quiz.name                    ;
+        if ( quiz.desc      ) post.desc    = quiz.desc                    ;
         if ( quiz.questions ) post.content = { questions: quiz.questions };
         
         if ( post.name ) {
-            $http.post('/class/' + $scope.classId +
-                       '/module/' + quiz.parent +
+            $http.post('/class/'         + $scope.classId +
+                       '/module/'        + quiz.parent    +
                        '/activity/create', post)
             .success(function(data, status) {
                 showSuccess(data);

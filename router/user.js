@@ -12,6 +12,7 @@ function getEnrolledIn(req, res) {
             res.end('An error has occured');
             return err;
         }
+        
         res.send(docs);
     });
 }
@@ -32,7 +33,7 @@ var user = {
     lookup: function(req, res) {
         var input = url.parse(req.url, true).query;
         
-        var id = input.id;
+        var id         = input.id         ;
         var username   = input.username   ;
         var firstName  = input.firstName  ;
         var middleName = input.middleName ;
@@ -49,16 +50,17 @@ var user = {
         if (lastName   ) query.lastName   = lastName   ;
         if (email      ) query.email      = email      ;
         if (role       ) query.role       = role       ;
+        
         if (username || firstName || middleName || lastName || email || role || id) {
             userModel.find(query, function (err, docs) {
                 var results = [];
-                for (var x in docs) results.push({username:   docs[x].username  ,
-                                                  firstName:  docs[x].firstName ,
-                                                  middleName: docs[x].middleName,
-                                                  lastName:   docs[x].lastName  ,
-                                                  email:      docs[x].email     ,
-                                                  role:       docs[x].role      ,
-                                                  id:         docs[x]._id}      );
+                for (var x in docs) results.push({username   : docs[x].username  ,
+                                                  firstName  : docs[x].firstName ,
+                                                  middleName : docs[x].middleName,
+                                                  lastName   : docs[x].lastName  ,
+                                                  email      : docs[x].email     ,
+                                                  role       : docs[x].role      ,
+                                                  id         : docs[x]._id}      );
                 res.send(results);
             });
         } else res.end();
@@ -69,6 +71,7 @@ var user = {
                 res.end('An error has occurred');
                 return err;
             }
+            
             res.send('User ' + result._id + ' created successfully');
         });
     },
@@ -83,12 +86,15 @@ var user = {
             if (req.body.school     ) selected.school     = req.body.school     ;
             if (req.body.role       ) selected.role       = req.body.role       ;
             if (req.body.grade      ) selected.grade      = req.body.grade      ;
+            
             selected.save(function (err) {
                 if (err) {
                     res.end('An error occurred');
                     return err;
                 }
+                
                 console.log('User ' + req.body._id + ' updated successfully');
+                
                 res.end('User updated successfully');
             });
         });
@@ -99,6 +105,7 @@ var user = {
                 res.end(err);
                 return true;
             }
+            
             res.end('User ' + url.parse(req.url, true).query.target + ' removed successfully.');
         });
     }
@@ -111,6 +118,7 @@ function findUser(req, res, next) {
             res.end('An error has occured');
             return err;
         }
+        
         req.doc = doc;
         next();
     });
@@ -143,8 +151,9 @@ router.get('/profile/:id/email'   , pass.atleastStudent, findUser, getProfile.em
 router.get('/profile/:id/id'      , pass.atleastStudent, findUser, getProfile.id       );
 router.get('/profile/:id/'        , pass.atleastStudent, findUser, getProfile.index    );
 
-router.get('/lookup' , pass.atleastTeacher, user.lookup );
-router.get('/remove' , pass.ensureAdmin   , user.remove );
+router.get('/lookup', pass.atleastTeacher, user.lookup );
+router.get('/remove', pass.ensureAdmin   , user.remove );
+
 router.post('/create', pass.ensureAdmin   , user.create );
 router.post('/update', pass.ensureAdmin   , user.update );
 

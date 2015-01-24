@@ -2,30 +2,30 @@ var express  = require('express');
 var passport = require('passport');
 
 // middleware
-var logger         = require('morgan');
-var multer         = require('multer');
-var bodyParser     = require('body-parser');
-var cookieParser   = require('cookie-parser');
-var methodOverride = require('method-override');
-var session        = require('express-session');
+var logger         = require('morgan')                ;
+var multer         = require('multer')                ;
+var bodyParser     = require('body-parser')           ;
+var cookieParser   = require('cookie-parser')         ;
+var methodOverride = require('method-override')       ;
+var session        = require('express-session')       ;
 var mongoStore     = require('connect-mongo')(session);
-var flash          = require('connect-flash');
+var flash          = require('connect-flash')         ;
 
 // Call the compilers
 var stylus = require('stylus');
-var nib    = require('nib');
+var nib    = require('nib')   ;
 
 // Let our dbschema file handle all of our configurations for connecting to Mongo
 var db = require('./config/dbschema');
 // And call pass to help with auth
 var pass = require('./config/pass');
 
-var app  = express();
+var app = express();
 
 // Compiler string for when we work with stylus CSS
 function compile(str, path) { return stylus(str).set('filename', path).use(nib()) }
 
-if      (app.get('env') == 'production'  ) port = 80;
+if      (app.get('env') == 'production'  ) port = 80  ;
 else if (app.get('env') == 'development' ) port = 9500;
 else if (app.get('env') == 'testing'     ) port = 8080;
 else                                       port = 9501;
@@ -66,15 +66,3 @@ var router = require('./router')(app);
 
 // Initialize config and finish loading server
 var config = require('./config/config')(app, db, router);
-
-// // Lastly, start listening for connections
-// // 
-// // IMPORTANT:  This MUST be done ONLY after everything else has been done.  Else
-// // we may potentially introduce runtime errors or security loopholes.
-// app.listen(port, function(){
-//     var mode = '';
-//     
-//     if (app.get('env') == 'development') mode = ' in development mode';
-//     
-//     console.log('bovine started on port ' + port + mode);
-// });

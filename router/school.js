@@ -1,7 +1,8 @@
 var router = require('express').Router();
 var pass   = require('../config/pass');
 
-var url         = require('url');
+var url = require('url');
+
 var schoolModel = require('../config/dbschema').model.school;
 
 var school = {

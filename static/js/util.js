@@ -1,8 +1,8 @@
 var bovine = angular.module('bovine', []).service('sharedTarget', function() {
     var target;
     return {
-        get: function() { return target },
-        set: function(id) { target = id }
+        get: function()   { return target },
+        set: function(id) { target = id   }
     }
 });
 toastr.options = {
@@ -23,7 +23,7 @@ function objectHasValue(object, val) {
 };
 
 function showSuccess(data) { toastr.success(data) }
-function showError(data) { toastr.error(data) }
-function showInfo(data) { toastr.info(data) }
+function showError(data)   { toastr.error(data)   }
+function showInfo(data)    { toastr.info(data)    }
 
 $('.widthToHeight').css({'height':$('.widthToHeight').width()+'px'});

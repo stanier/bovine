@@ -10,6 +10,7 @@ bovine.controller('classController', ['$scope', '$http', '$sce', 'sharedTarget',
             $scope.target    = clone(data[0]);
         
             $scope.modules = [];
+            
             for (var i in $scope.oldTarget.modules) {
                 $http.get('/class/' + $scope.classId + '/module/' + $scope.oldTarget.modules[i] + '/info')
                 .success(function(data, status) {
@@ -18,12 +19,12 @@ bovine.controller('classController', ['$scope', '$http', '$sce', 'sharedTarget',
                     for (var j in $scope.modules[i-1].activities) {
                         $scope.modules[i-1].detailedActivities = [];
                         
-                        $http.get('/class/' + $scope.classId +
-                                  '/module/' + $scope.modules[i-1].id +
+                        $http.get('/class/'    + $scope.classId                    +
+                                  '/module/'   + $scope.modules[i-1].id            +
                                   '/activity/' + $scope.modules[i-1].activities[j] +
                                   '/info')
                         .success(function(data, status) { $scope.modules[i-1].detailedActivities.push(data) })
-                        .error(function(data, status) { showError(data) });
+                        .error(  function(data, status) { showError(data)                                   });
                     }
                 })
                 .error(function(data, status) { showError(data) });
