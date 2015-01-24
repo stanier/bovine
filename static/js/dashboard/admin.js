@@ -12,7 +12,7 @@ bovine.controller('findUser', ['$scope', '$http', 'sharedTarget', function($scop
         if (username || firstName || middleName || lastName || email || role) {
             $http.get(queryString)
             .success(function(data, status){ $scope.data = data })
-            .error(function(data,status){ $scope.data = data }); 
+            .error(  function(data, status){ $scope.data = data }); 
         } else $scope.data = null;
     }
     $scope.remove = function(id) {
@@ -20,7 +20,7 @@ bovine.controller('findUser', ['$scope', '$http', 'sharedTarget', function($scop
         
         $http.get('/user/remove?target=' + id)
         .success(function(data, status){ showSuccess(data) })
-        .error(function(data, status){ showError(data) });
+        .error(  function(data, status){ showError(data)   });
     }
     $scope.shareTarget = function(id) { sharedTarget.set(id) }
 }]);
@@ -43,24 +43,27 @@ bovine.controller('addUser', ['$scope', '$http', function($scope, $http) {
         
         if (username && email && password && firstName && middleName && lastName && role && grade) {
             $http.post(queryString, postData)
-            .success(function(data, status, headers, config){ showSuccess(data); })
-            .error(function(data, status, headers, config){ showError(data) });
+            .success(function(data, status, headers, config){ showSuccess(data) })
+            .error(  function(data, status, headers, config){ showError(data)   });
         } else showError('ERROR:  One of the required fields was left empty');
     };
 }]);
 bovine.controller('editUser', ['$scope', '$http', 'sharedTarget', function($scope, $http, sharedTarget) {
     $scope.schools = ['West Side','East Side'];
+    
     $( document ).ready(function() {
         $('#userEdit').on('shown.bs.modal', function() {
             $http.get('/user/lookup?id=' + sharedTarget.get()).success(function(data, status) {
                 $scope.oldTarget = clone(data[0]);
-                $scope.target = clone(data[0]);
+                $scope.target    = clone(data[0]);
                 sharedTarget.set('');
             });
         });
     });
+    
     $scope.write = function() {
         var post = {};
+        
         if ($scope.target.username   != $scope.oldTarget.usename    ) post.username   = $scope.target.username   ;
         if ($scope.target.email      != $scope.oldTarget.email      ) post.email      = $scope.target.email      ;
         if ($scope.target.password   != $scope.oldTarget.password   ) post.password   = $scope.target.password   ;
@@ -72,16 +75,19 @@ bovine.controller('editUser', ['$scope', '$http', 'sharedTarget', function($scop
         if ($scope.target.grade      != $scope.oldTarget.grade      ) post.grade      = $scope.target.grade      ;
         
         if (post.username || post.password || post.firstName || post.middleName || post.lastName || post.school || post.role || post.grade) {
+            
             post._id = $scope.oldTarget.id;
+            
             $http.post('/user/update', post)
             .success(function(data, status, headers, config){ showSuccess(data) })
-            .error(function(data, status, headers, config){ showError(data) });
+            .error(  function(data, status, headers, config){ showError(data)   });
         }
     };
 }]);
 bovine.controller('findClass', ['$scope', '$http', 'sharedTarget', function($scope, $http, sharedTarget) {
     $scope.lookup = function(name, category, website, grade) {
         var queryString = '/class/lookup';
+        
         if (name     ) queryString = queryString.concat('?name='     + name     );
         if (category ) queryString = queryString.concat('?category=' + category );
         if (website  ) queryString = queryString.concat('?website='  + website  );
@@ -89,22 +95,24 @@ bovine.controller('findClass', ['$scope', '$http', 'sharedTarget', function($sco
         
         if (name || category || website || grade) {
             $http.get(queryString)
-            .success(function(data,status) { $scope.data = data })
-            .error(function(data,status) { $scope.data = data });
+            .success(function(data,status){ $scope.data = data })
+            .error(  function(data,status){ $scope.data = data });
         }
     }
     $scope.remove = function(id) {
         if (!id) return true;
         
         $http.get('/class/remove?target=' + id)
-        .success(function(data,status){ showSuccess(data) })
-        .error(function(data, status){ showError(data) });
+        .success(function(data, status){ showSuccess(data) })
+        .error(  function(data, status){ showError(data) });
     }
-    $scope.shareTarget = function(id) { sharedTarget.set(id) }
+    $scope.shareTarget = function(id){ sharedTarget.set(id) }
 }]);
 bovine.controller('addClass', ['$scope', '$http', function($scope, $http) {
     $scope.getTeachers = function() { $http.get('/user/lookup?role=2').success( function(data, status) { $scope.teachers = data } ) }
+    
     $scope.write = function(name, category, website, grade, teacher, desc){
+        
         var queryString = '/class/create';
         var postData = {};
         
@@ -118,17 +126,19 @@ bovine.controller('addClass', ['$scope', '$http', function($scope, $http) {
         if (name) {
             $http.post(queryString, postData)
             .success(function(data, status, headers, config){ showSuccess(data) })
-            .error(function(data, status, headers, config){ showError(data) });
+            .error(  function(data, status, headers, config){ showError(data)   });
         } else $scope.error = 'ERROR:  One of the required fields was left empty';
     }
 }]);
 bovine.controller('editClass', ['$scope', '$http', 'sharedTarget', function($scope, $http, sharedTarget) {
     $scope.schools = ['West Side','East Side'];
+    
     $( document ).ready(function() {
         $('#classEdit').on('shown.bs.modal', function() {
             $http.get('/class/lookup?id=' + sharedTarget.get()).success(function(data, status) {
                 $scope.oldTarget = clone(data[0]);
-                $scope.target = clone(data[0]);
+                $scope.target    = clone(data[0]);
+                
                 sharedTarget.set('');
             });
         });
@@ -145,9 +155,10 @@ bovine.controller('editClass', ['$scope', '$http', 'sharedTarget', function($sco
         
         if (post.name || post.category || post.website || post.grade || post.teacher || post.desc) {
             post._id = $scope.oldTarget.id;
+            
             $http.post('/class/update', post)
             .success(function(data, status, headers, config){ showSuccess(data) })
-            .error(function(data, status, headers, config){ showError(data) });
+            .error(  function(data, status, headers, config){ showError(data)   });
         }
     };
 }]);
@@ -167,8 +178,9 @@ bovine.controller('findSchool', ['$scope', '$http', 'sharedTarget', function($sc
     $scope.remove = function(id) {
         if (!id) return true;
         
-        $http.get('/school/remove?target=' + id).success(function(data,status){ showSuccess(data) })
-        .error(function(data, status){ showError(data) });
+        $http.get('/school/remove?target=' + id)
+        .success(function(data, status){ showSuccess(data) })
+        .error(  function(data, status){ showError(data)   });
     }
     $scope.shareTarget = function(id) { sharedTarget.set(id) }
 }]);
@@ -189,17 +201,19 @@ bovine.controller('addSchool', ['$scope', '$http', function($scope, $http) {
         if (name && type) {
             $http.post(queryString, postData)
             .success(function(data, status, headers, config){ showSuccess(data) })
-            .error(function(data, status, headers, config){ showError(data) });
+            .error(  function(data, status, headers, config){ showError(data)   });
         } else $scope.error = 'ERROR:  One of the required fields was left empty';
     }
 }]);
 bovine.controller('editSchool', ['$scope', '$http', 'sharedTarget', function($scope, $http, sharedTarget) {
     $scope.schools = ['West Side','East Side'];
+    
     $( document ).ready(function() {
         $('#schoolEdit').on('shown.bs.modal', function() {
             $http.get('/school/lookup?id=' + sharedTarget.get()).success(function(data, status) {
                 $scope.oldTarget = clone(data[0]);
-                $scope.target = clone(data[0]);
+                $scope.target    = clone(data[0]);
+                
                 sharedTarget.set('');
             });
         });
@@ -215,9 +229,82 @@ bovine.controller('editSchool', ['$scope', '$http', 'sharedTarget', function($sc
         
         if (post.name || post.category || post.website || post.grade || post.teacher) {
             post._id = $scope.oldTarget.id;
-            $http.post('/class/update', post)
+            
+            $http.post('/school/update', post)
             .success(function(data, status, headers, config){ showSuccess(data) })
-            .error(function(data, status, headers, config){ showError(data) });
+            .error(  function(data, status, headers, config){ showError(data)   });
+        }
+    };
+}]);
+bovine.controller('findDistrict', ['$scope', '$http', 'sharedTarget', function($scope, $http, sharedTarget) {
+    $scope.lookup = function(name, type) {
+        var queryString = '/district/lookup';
+        
+        if (name) queryString = queryString.concat('?name=' + name);
+        if (type) queryString = queryString.concat('?type=' + type);
+        
+        if (name || type) {
+            $http.get(queryString)
+            .success(function(data,status) { $scope.data = data })
+            .error(function(data,status) { $scope.data = data });
+        }
+    }
+    $scope.remove = function(id) {
+        if (!id) return true;
+        
+        $http.get('/district/remove?target=' + id)
+        .success(function(data, status){ showSuccess(data) })
+        .error(  function(data, status){ showError(data)   });
+    }
+    $scope.shareTarget = function(id) { sharedTarget.set(id) }
+}]);
+bovine.controller('addDistrict', ['$scope', '$http', function($scope, $http) {
+    $scope.write = function(name, type, website, zipcode, district, city, state, country){
+        var queryString = '/district/create';
+        var postData = {};
+        
+        if (name     ) postData.name     = name     ;
+        if (type     ) postData.type     = type     ;
+        if (website  ) postData.website  = website  ;
+        if (zipcode  ) postData.zipcode  = zipcode  ;
+        if (district ) postData.district = district ;
+        if (city     ) postData.city     = city     ;
+        if (state    ) postData.state    = state    ;
+        if (country  ) postData.country  = country  ;
+        
+        if (name && type) {
+            $http.post(queryString, postData)
+            .success(function(data, status, headers, config){ showSuccess(data) })
+            .error(  function(data, status, headers, config){ showError(data)   });
+        } else $scope.error = 'ERROR:  One of the required fields was left empty';
+    }
+}]);
+bovine.controller('editDistrict', ['$scope', '$http', 'sharedTarget', function($scope, $http, sharedTarget) {
+    $( document ).ready(function() {
+        $('#districtEdit').on('shown.bs.modal', function() {
+            $http.get('/district/lookup?id=' + sharedTarget.get()).success(function(data, status) {
+                $scope.oldTarget = clone(data[0]);
+                $scope.target    = clone(data[0]);
+                
+                sharedTarget.set('');
+            });
+        });
+    });
+    $scope.write = function() {
+        var post = {};
+        
+        if ($scope.target.name     != $scope.oldTarget.name     ) post.name     = $scope.target.name     ;
+        if ($scope.target.category != $scope.oldTarget.category ) post.category = $scope.target.category ;
+        if ($scope.target.website  != $scope.oldTarget.website  ) post.website  = $scope.target.website  ;
+        if ($scope.target.grade    != $scope.oldTarget.grade    ) post.grade    = $scope.target.grade    ;
+        if ($scope.target.teacher  != $scope.oldTarget.teacher  ) post.teacher  = $scope.target.teacher  ;
+        
+        if (post.name || post.category || post.website || post.grade || post.teacher) {
+            post._id = $scope.oldTarget.id;
+            
+            $http.post('/district/update', post)
+            .success(function(data, status, headers, config){ showSuccess(data) })
+            .error(  function(data, status, headers, config){ showError(data)   });
         }
     };
 }]);
