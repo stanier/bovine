@@ -35,25 +35,25 @@ function configure(app, db, router) {
 
 function launch(app, db, router, config) {
     if (process.argv.length > 2) {
-        process.argv.forEach(function(e, i, a) {
-            switch(e) {
+        process.argv.forEach(function(element, index, array) {
+            switch(element) {
                 case '-p':
                 case '--p':
                 case '--port':
-                    config.port = a[i+1];
+                    config.port = array[index+1];
                     break;
                 case '-h':
                 case '--h':
                 case '--host':
-                    config.hostname = a[i+1];
+                    config.hostname = array[index+1];
                     break;
                 case '-e':
                 case '--e':
                 case '--env':
-                    config.environment = a[i+1];
+                    config.environment = array[index+1];
                     break;
             }
-            if (i == a.length - 1) listen();
+            if (index == array.length - 1) listen();
         });
     } else listen();
     

@@ -27,6 +27,7 @@ var classes = {
         if ( website  ) query.website  = website  ;
         if ( grade    ) query.grade    = grade    ;
         if ( teacher  ) query.teacher  = teacher  ;
+        
         if ( id || name || category || website || grade || teacher ) {
             classModel.find(query, function (err, docs) {
                 var results = [];
@@ -59,6 +60,7 @@ var classes = {
             if ( req.body.grade    ) selected.grade    = req.body.grade    ;
             if ( req.body.teacher  ) selected.teacher  = req.body.teacher  ;
             if ( req.body.desc     ) selected.desc     = req.body.desc     ;
+            
             selected.save(function (err) {
                 if (err) {
                     res.end('An error occurred');
@@ -116,18 +118,21 @@ var classes = {
     getStudents : function(req, res) {
         if (url.parse(req.url, true).query.detailed == 'true') {
             var response = [];
+            
             if (req.doc.enrolled.length == 0) res.send(req.doc.enrolled);
-            for (var i in req.doc.enrolled) {
-                userModel.where({ _id: req.doc.enrolled[i] }).findOne(function(err, doc) {
+            
+            req.doc.enrolled.forEach(function(element, index, array) {
+                userModel.where({ _id: element }).findOne(function(err, doc) {
                     if (err) {
                         res.end('An error has occured');
                         return true;
                     }
                     if (!doc) req.doc.enrolled.splice(req.doc.enrolled.indexOf(req.doc.enrolled[i]));
                     else response.push(doc);
+                    
                     if(response.length == req.doc.enrolled.length) res.send(response);
                 });
-            }
+            });
         } else res.send(req.doc.enrolled);
     },
     getProfile : function(req, res) {
@@ -167,6 +172,7 @@ var classes = {
                 
                 if ( req.body.name ) doc.name = req.body.name;
                 if ( req.body.desc ) doc.desc = req.body.desc;
+                
                 doc.save(function(err) {
                     if (err) {
                         res.end(err);
@@ -178,6 +184,7 @@ var classes = {
         },
         remove : function(req, res) {
             req.body.class = req.doc._id;
+            
             moduleModel.remove({_id: req.params.module}, function(err) {
                 if (err) {
                     res.end(err);
@@ -211,6 +218,7 @@ var classes = {
         activity : {
             create : function(req, res) {
                 req.body.module = req.doc._id;
+                
                 if ( req.body.type == 'quiz' ) {
                     assignmentModel.create(req.body, function(err, result) {
                         if (err) {
@@ -324,18 +332,16 @@ var classes = {
                         
                         var visibleQuestions = [];
                         
-                        for (var i in selected.content.questions) {
+                        selected.content.questions.forEach(function(element, index, array) {
                             visibleQuestions.push({
-                                prompt  : selected.content.questions[i].prompt  ,
-                                type    : selected.content.questions[i].type    ,
-                                options : selected.content.questions[i].options ,
-                                id      : selected.content.questions[i].id      ,
+                                prompt  : element.prompt  ,
+                                type    : element.type    ,
+                                options : element.options ,
+                                id      : element.id
                             });
                             
-                            if (i == selected.content.questions.length - 1) {
-                                res.send(visibleQuestions);
-                            }
-                        }
+                            if (i == array.length - 1) res.send(visibleQuestions);
+                        });
                     });
                 },
                 submit : function(req, res) {
@@ -348,12 +354,9 @@ var classes = {
                         
                         var correct = [];
                         
-                        for (var i in selected.content.questions) {
-                            console.log(selected.content.questions[i]);
-                            console.log(req.body.questions[i]);
-                            
-                            correct[i] = (req.body.questions[i].selected == selected.content.questions[i].correct) ? true : false;
-                        }
+                        selected.content.questions.forEach(function(element, index, array) {
+                            correct[index] = (req.body.questions[index].selected == element.correct) ? true : false;
+                        });
                         
                         submissionModel.create({
                             student    : req.user._id      ,
@@ -365,6 +368,7 @@ var classes = {
                                 res.end(err);
                                 return true;
                             }
+                            
                             res.end('Quiz submitted successfully');
                         })
                     });
@@ -381,6 +385,7 @@ function findClass(req, res, next) {
             return true;
         }
         req.doc = doc;
+        
         next();
     });
 }
@@ -392,6 +397,7 @@ function findModule(req, res, next) {
             return true;
         }
         req.doc = doc;
+        
         next();
     });
 }

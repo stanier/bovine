@@ -1,4 +1,4 @@
-tab-pane#districtAdd(ng-controller='addDistrict')
+.tab-pane#districtAdd(ng-controller='addDistrict')
     .well.col-sm-12
         form.form-horizontal(novalidate)
             .form-group.col-sm-4
@@ -10,7 +10,6 @@ tab-pane#districtAdd(ng-controller='addDistrict')
             .form-group.col-sm-4
                 label.control-label.col-sm-3(for='districtAdd_zipcode') Zipcode
                 .col-sm-9: input.form-control#districtAdd_zipcode(type='text' ng-model='zipcode')
-            .form-group.col-sm-4
             .form-group.col-sm-4
                 label.control-label.col-sm-3(for='districtAdd_city') City
                 .col-sm-9: input.form-control#districtAdd_city(type='text' ng-model='city')

@@ -22,14 +22,18 @@ var district = {
         if (id || name || type) {
             districtModel.find(query, function (err, docs) {
                 var results = [];
-                for (var x in docs) results.push({name     : docs[x].name     ,
-                                                  type     : docs[x].type     ,
-                                                  website  : docs[x].website  ,
-                                                  zipcode  : docs[x].zipcode  ,
-                                                  district : docs[x].district ,
-                                                  city     : docs[x].city     ,
-                                                  state    : docs[x].state    ,
-                                                  id       : docs[x]._id      });
+                docs.forEach(function(element, index, array) {
+                    results.push({
+                        name    : element.name    ,
+                        website : element.website ,
+                        zipcode : element.zipcode ,
+                        city    : element.city    ,
+                        state   : element.state   ,
+                        country : element.country ,
+                        id      : element._id
+                    });
+                });
+                
                 res.send(results);
             });
         } else res.end();

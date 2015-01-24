@@ -54,13 +54,18 @@ var user = {
         if (username || firstName || middleName || lastName || email || role || id) {
             userModel.find(query, function (err, docs) {
                 var results = [];
-                for (var x in docs) results.push({username   : docs[x].username  ,
-                                                  firstName  : docs[x].firstName ,
-                                                  middleName : docs[x].middleName,
-                                                  lastName   : docs[x].lastName  ,
-                                                  email      : docs[x].email     ,
-                                                  role       : docs[x].role      ,
-                                                  id         : docs[x]._id}      );
+                
+                docs.forEach(function(element, index, array) {
+                    results.push({
+                        username   : element.username  ,
+                        firstName  : element.firstName ,
+                        middleName : element.middleName,
+                        lastName   : element.lastName  ,
+                        email      : element.email     ,
+                        role       : element.role      ,
+                        id         : element._id
+                    });
+                });
                 res.send(results);
             });
         } else res.end();

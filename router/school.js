@@ -22,15 +22,20 @@ var school = {
         if (id || name || type) {
             schoolModel.find(query, function (err, docs) {
                 var results = [];
-                for (var x in docs) results.push({name     : docs[x].name     ,
-                                                  type     : docs[x].type     ,
-                                                  website  : docs[x].website  ,
-                                                  zipcode  : docs[x].zipcode  ,
-                                                  district : docs[x].district ,
-                                                  city     : docs[x].city     ,
-                                                  state    : docs[x].state    ,
-                                                  id       : docs[x]._id      });
-                res.send(results);
+                docs.forEach(function(element, index, array) {
+                    results.push({
+                        name     : element.name     ,
+                        type     : element.type     ,
+                        website  : element.website  ,
+                        zipcode  : element.zipcode  ,
+                        district : element.district ,
+                        city     : element.city     ,
+                        state    : element.state    ,
+                        country  : element.country  ,
+                        id       : element._id
+                    });
+                    if (index == array.length - 1) res.send(results);
+                });
             });
         } else res.end();
     },

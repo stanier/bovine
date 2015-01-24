@@ -11,24 +11,22 @@ bovine.controller('classController', ['$scope', '$http', '$sce', 'sharedTarget',
         
             $scope.modules = [];
             
-            for (var i in $scope.oldTarget.modules) {
-                $http.get('/class/' + $scope.classId + '/module/' + $scope.oldTarget.modules[i] + '/info')
+            $scope.oldTarget.modules.forEach(function(element, index, array) {
+                $http.get('/class/' + $scope.classId + '/module/' + element + '/info')
                 .success(function(data, status) {
-                    $scope.modules.push(data);
-                    
-                    for (var j in $scope.modules[i-1].activities) {
-                        $scope.modules[i-1].detailedActivities = [];
+                    data.activities.forEach(function(element2, index2, array2) {
+                        $http.get('/class/'   + $scope.classId +
+                                 '/module/'   + element.id     +
+                                 '/activity/' + element2       +
+                                 '/info')
+                        .success(function(data, status) { data.detailedActivities.push(data) })
+                        .error(  function(data, status) { showError(data)                    });
                         
-                        $http.get('/class/'    + $scope.classId                    +
-                                  '/module/'   + $scope.modules[i-1].id            +
-                                  '/activity/' + $scope.modules[i-1].activities[j] +
-                                  '/info')
-                        .success(function(data, status) { $scope.modules[i-1].detailedActivities.push(data) })
-                        .error(  function(data, status) { showError(data)                                   });
-                    }
+                        $scope.modules.push(data);
+                    });
                 })
                 .error(function(data, status) { showError(data) });
-            }
+            });
         })
         .error(function(data, status) { showError(data) });
     }
