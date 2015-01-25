@@ -28,6 +28,7 @@ roadmap (planned features)
 
 NOTE:  bovine is still in development.  Much more development is necessary before it can be considered stable.
 
+* better query limiting and search support
 * cluster/loadbalancing support
 * middleware
 * separation of main components into middleware
