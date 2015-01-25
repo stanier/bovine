@@ -16,9 +16,9 @@ var stylus = require('stylus');
 var nib    = require('nib')   ;
 
 // Let our dbschema file handle all of our configurations for connecting to Mongo
-var db = require('./config/dbschema');
+var db = require('./util/dbschema');
 // And call pass to help with auth
-var pass = require('./config/pass');
+var pass = require('./util/pass');
 
 var app = express();
 
@@ -88,4 +88,4 @@ app.use(express.static(__dirname + '/static'));
 var router = require('./router')(app);
 
 // Initialize config and finish loading server
-var config = require('./config/config')(app, db, router);
+var config = require('./util/config')(app, db, router);

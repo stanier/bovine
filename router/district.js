@@ -1,9 +1,9 @@
 var router = require('express').Router();
-var pass   = require('../config/pass');
+var pass   = require('../util/pass');
 
 var url = require('url');
 
-var districtModel = require('../config/dbschema').model.districts;
+var districtModel = require('../util/dbschema').model.districts;
 
 var district = {
     lookup: function(req, res) {

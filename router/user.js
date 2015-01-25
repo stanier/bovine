@@ -1,9 +1,9 @@
 var router = require('express').Router();
-var pass   = require('../config/pass');
+var pass   = require('../util/pass');
+var url    = require('url');
 
-var url        = require('url');
-var userModel  = require('../config/dbschema').model.user;
-var classModel = require('../config/dbschema').model.class;
+var userModel  = require('../util/dbschema').model.user  ;
+var classModel = require('../util/dbschema').model.class ;
 
 // Get all the classes the user is enrolled in
 function getEnrolledIn(req, res) {

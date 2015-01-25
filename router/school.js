@@ -1,9 +1,9 @@
 var router = require('express').Router();
-var pass   = require('../config/pass');
+var pass   = require('../util/pass');
 
 var url = require('url');
 
-var schoolModel = require('../config/dbschema').model.school;
+var schoolModel = require('../util/dbschema').model.school;
 
 var school = {
     lookup: function(req, res) {

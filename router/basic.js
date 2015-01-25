@@ -1,5 +1,5 @@
  var router   = require('express').Router();
-var pass     = require('../config/pass');
+var pass     = require('../util/pass');
 var passport = require('passport');
 
 // Render account

@@ -1,13 +1,13 @@
 var router = require('express').Router();
-var pass   = require('../config/pass');
+var pass   = require('../util/pass');
 var url    = require('url');
 
 // Make sure we have our Models ready for working with the database
-var userModel       = require('../config/dbschema').model.user       ;
-var classModel      = require('../config/dbschema').model.class      ;
-var moduleModel     = require('../config/dbschema').model.module     ;
-var assignmentModel = require('../config/dbschema').model.assignment ;
-var submissionModel = require('../config/dbschema').model.submission ;
+var userModel       = require('../util/dbschema').model.user       ;
+var classModel      = require('../util/dbschema').model.class      ;
+var moduleModel     = require('../util/dbschema').model.module     ;
+var assignmentModel = require('../util/dbschema').model.assignment ;
+var submissionModel = require('../util/dbschema').model.submission ;
 
 var classes = {
     lookup : function(req, res) {
@@ -49,6 +49,7 @@ var classes = {
                 res.end('An error has occurred');
                 return err;
             }
+            
             res.send('Class ' + result._id + ' created successfully');
         });
     },
