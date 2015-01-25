@@ -29,7 +29,8 @@ roadmap (planned features)
 NOTE:  bovine is still in development.  Much more development is necessary before it can be considered stable.
 
 * cluster/loadbalancing support
-* back-end plugins
+* middleware
+* separation of main components into middleware
 * extensive configuration management
 * API and theming system
 * better documentation
@@ -42,4 +43,4 @@ Please see [the all-knowing CONTRIBUTING file](https://github.com/stanier/bovine
 license
 ===
 
-bovine is licensed under the MIT License.  For more information, please see [LICENSE.MD](https://github.com/stanier/bovine/blob/master/LICENSE.md)
+bovine is licensed under the MIT License.  For more information, please see [LICENSE](https://github.com/stanier/bovine/blob/master/LICENSE)
