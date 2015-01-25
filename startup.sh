@@ -1,1 +1,0 @@
-parts start mongodb
