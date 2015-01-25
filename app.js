@@ -59,6 +59,29 @@ app.use(stylus.middleware({
     src: __dirname + '/static',
     compile: compile
 }));
+
+// Assets
+// 
+// Interpreted as slug : directory, slug being defined as URL, directory being
+// defined as location in relations to launch directory.  Leaving directory
+// empty will prompt searching of node_modules for directory matching slug
+var assets = {
+    "jquery"             : "",
+    "bootstrap"          : "",
+    "bootstrap-material" : "",
+    "font-awesome"       : "",
+    "toastr"             : "",
+    "angular"            : "",
+    "marked"             : ""
+}
+
+Object.keys(assets).forEach(function(slug) {
+    var directory = assets[slug];
+    
+    if (directory.length == 0) app.use('/' + slug, express.static(__dirname + '/node_modules/' + slug));
+    else app.use('/' + slug, express.static(__dirname + directory));
+});
+
 app.use(express.static(__dirname + '/static'));
 
 // Initiliaze router
