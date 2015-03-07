@@ -7,6 +7,15 @@ bovine was created with a simple goal; to create an online learning system that 
 
 bovine is aimed towards a system that will allow for easy integration of modules and stylesheets through npm, while providing a simple, user-friendly interface that anyone can work with comfortably.  Upon initial startup, bovine will search for existing configuration objects in the database.  If none are found, a new configuration object is created to help you get started.
 
+IMPORTANT:  Development hiatus
+===
+
+As the project does not seem to have much wind behind it's sails and the demand for it seems to be virtually nonexistent, I am announcing an indefinite hiatus of the project.
+
+As the sole contributor, I have other projects I would like to focus on that may have more demand and be more useful for the general populus, which is the main goal of my projects-- to create free, open-source projects that can be help others.
+
+*Shall any additional contributors wish to push code to this repository, I will graciously accept it.*  If another developer would like to become the maintainer of the project, I may consider transferring ownership if it means the project will excel.  At the time of writing, I am unsure of future involvement in the project.
+
 installation
 ===
 
